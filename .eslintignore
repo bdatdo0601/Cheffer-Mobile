@@ -1,0 +1,9 @@
+node_modules/
+build/
+coverage/
+public/
+packages/react-scripts/template
+packages/react-scripts/fixtures
+*.snap
+src/components/common/assets/
+*.lock
