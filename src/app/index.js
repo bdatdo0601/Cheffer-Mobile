@@ -6,6 +6,7 @@
 
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-elements";
 
 const instructions = Platform.select({
     ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
@@ -17,6 +18,13 @@ export default class App extends Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>Welcome to React Native!</Text>
+                <Button
+                    large
+                    icon={{ name: "envira", type: "font-awesome", color: "green" }}
+                    title="LARGE WITH ICON TYPE"
+                    color="blue"
+                    backgroundColor="orange"
+                />
                 <Text style={styles.instructions}>To get started, edit App.js</Text>
                 <Text style={styles.instructions}>{instructions}</Text>
             </View>
