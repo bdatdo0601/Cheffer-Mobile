@@ -21,8 +21,8 @@ class LoginForm extends React.Component {
         onLogin: () => {},
         onSignup: () => {},
         displaySignup: false,
-        usernameErrorMessage: "",
-        passwordErrorMessage: "",
+        usernameErrorMessage: null,
+        passwordErrorMessage: null,
     };
 
     constructor(props) {
@@ -49,7 +49,7 @@ class LoginForm extends React.Component {
                     onChangeText={username => this.setState({ username })}
                     leftIcon={<Icon name="user" size={16} color="black" />}
                     containerStyle={styles.usernameInputContainer}
-                    errorMessage={usernameErrorMessage}
+                    errorMessage={usernameErrorMessage || null}
                 />
                 <Input
                     secureTextEntry
@@ -57,7 +57,7 @@ class LoginForm extends React.Component {
                     onChangeText={password => this.setState({ password })}
                     leftIcon={<Icon name="lock" size={16} color="black" />}
                     containerStyle={styles.passwordInputContainer}
-                    errorMessage={passwordErrorMessage}
+                    errorMessage={passwordErrorMessage || null}
                 />
                 <View style={{ flexDirection: "row" }}>
                     <Button
