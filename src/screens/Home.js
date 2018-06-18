@@ -9,7 +9,7 @@ class HomeScreen extends React.Component {
                 <Text>Home Screen</Text>
                 <Button
                     onPress={() => {
-                        navigate("Home", { name: "name of the thing" });
+                        navigate("OtherScreen", { name: "name of the thing" });
                     }}
                     title="Go to other"
                 />
