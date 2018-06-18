@@ -1,52 +1,47 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import React from "react";
+import { View, Text, Button, YellowBox } from "react-native";
+YellowBox.ignoreWarnings(["Warning: isMounted(...) is deprecated", "Module RCTImageLoader"]);
+import { createStackNavigator } from "react-navigation";
 
-import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-elements";
-
-const instructions = Platform.select({
-    ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
-    android: "Double tap R on your keyboard to reload,\n" + "Shake or press menu button for dev menu",
-});
-
-export default class App extends Component {
+class HomeScreen extends React.Component {
     render() {
+        const { navigate } = this.props.navigation;
         return (
-            <View style={styles.container}>
-                <Text style={styles.welcome}>Welcome to React Native!</Text>
+            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                <Text>Home Screen</Text>
                 <Button
-                    large
-                    icon={{ name: "envira", type: "font-awesome", color: "green" }}
-                    title="LARGE WITH ICON TYPE"
-                    color="blue"
-                    backgroundColor="orange"
+                    onPress={() => {
+                        navigate("OtherScreen", { name: "name of the thing" });
+                    }}
+                    title="Go to other"
                 />
-                <Text style={styles.instructions}>To get started, edit App.js</Text>
-                <Text style={styles.instructions}>{instructions}</Text>
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#F5FCFF",
+class Screen2 extends React.Component {
+    render() {
+        const { navigate } = this.props.navigation;
+        return (
+            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                <Text>Other Screen</Text>
+                <Button
+                    onPress={() => {
+                        navigate("Home", { name: "name of the thing thing" });
+                    }}
+                    title="Go back to home"
+                />
+            </View>
+        );
+    }
+}
+
+export default createStackNavigator({
+    Home: {
+        screen: HomeScreen,
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: "center",
-        margin: 10,
-    },
-    instructions: {
-        textAlign: "center",
-        color: "#333333",
-        marginBottom: 5,
+    OtherScreen: {
+        screen: Screen2,
     },
 });
