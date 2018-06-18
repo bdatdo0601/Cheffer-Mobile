@@ -8,7 +8,7 @@ import LoginScreen from "../screens/SearchScreen/index";
 export default createStackNavigator({
     Login: {
         screen: LoginScreen,
-    }
+    },
     Home: {
         screen: HomeScreen,
     },
