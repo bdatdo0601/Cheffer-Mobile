@@ -4,18 +4,18 @@ YellowBox.ignoreWarnings([
     "Module RCTImageLoader",
 ]);
 import { createStackNavigator } from "react-navigation";
-import HomeScreen from "../screens/Home";
-import Screen2 from "../screens/Search";
+import HomeScreen from "../screens/HomeScreen";
+import SearchScreen from "../screens/SearchScreen";
 import LoginScreen from "../screens/LoginScreen";
 
 export default createStackNavigator({
+    Search: {
+        screen: SearchScreen,
+    },
     Login: {
         screen: LoginScreen,
     },
     Home: {
         screen: HomeScreen,
-    },
-    Search: {
-        screen: SearchScreen,
     },
 });
