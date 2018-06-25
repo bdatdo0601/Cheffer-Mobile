@@ -9,13 +9,13 @@ import SearchScreen from "../screens/SearchScreen";
 import LoginScreen from "../screens/LoginScreen";
 
 export default createStackNavigator({
-    Search: {
-        screen: SearchScreen,
+    Home: {
+        screen: HomeScreen,
     },
     Login: {
         screen: LoginScreen,
     },
-    Home: {
-        screen: HomeScreen,
+    Search: {
+        screen: SearchScreen,
     },
 });

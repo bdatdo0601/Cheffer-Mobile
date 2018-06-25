@@ -1,5 +1,4 @@
 import React from "react";
-import { View, Text } from "react-native";
 import PropTypes from "prop-types";
 
 import { SearchBar } from "react-native-elements";
@@ -30,7 +29,10 @@ class SearchForm extends React.Component {
             <SearchBar
                 placeholder="Search meeee"
                 round
-                onChangeText={searching => this.setState({ searching })}
+                onChangeText={searching => {
+                    this.setState({ searching });
+                    onSearch(searching);
+                }}
                 containerStyle={styles.containerStyle}
                 inputContainerStyle={styles.inputContainerStyle}
                 searchIcon={{ size: 20 }}
