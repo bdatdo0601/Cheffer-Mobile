@@ -30,6 +30,7 @@ class LinkForm extends React.Component {
             <SearchBar
                 placeholder="Link to recipe"
                 round
+                searchIcon={false}
                 keyboardType={Platform.OS === "ios" ? "web-search" : "default"}
                 onChangeText={value => {
                     this.setState({ linkInput: value });

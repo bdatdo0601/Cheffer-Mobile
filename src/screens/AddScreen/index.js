@@ -45,11 +45,7 @@ class AddScreen extends React.Component {
     };
 
     render() {
-        return (
-            <View style={styles.container}>
-                <Text>Look at all these chicken</Text>
-            </View>
-        );
+        return <View style={styles.container} />;
     }
 }
 
