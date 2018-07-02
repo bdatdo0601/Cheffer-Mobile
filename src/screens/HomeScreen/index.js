@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { createBottomTabNavigator } from "react-navigation";
 import { Platform, Text } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import RecipeDetailsScreen from "./RecipeDetailsScreen";
+import RecipesScreen from "./RecipesScreen";
 import GroceriesScreen from "./GroceriesScreen";
 import BrowseScreen from "./BrowseScreen";
 import SettingsScreen from "./SettingsScreen";
@@ -12,7 +12,7 @@ import SettingsScreen from "./SettingsScreen";
 const tabNav = createBottomTabNavigator(
     {
         TabItem1: {
-            screen: RecipeDetailsScreen,
+            screen: RecipesScreen,
             navigationOptions: {
                 tabBarLabel: "Recipes",
                 tabBarIcon: ({ tintColor }) => (
