@@ -96,11 +96,13 @@ class RecipesScreen extends React.Component {
     };
 
     onSearchClick = () => {
-        console.log("search is clicked");
+        const { navigation } = this.props;
+        navigation.navigate("Search");
     };
 
     onAddClick = () => {
-        console.log("Add is clicked");
+        const { navigation } = this.props;
+        navigation.navigate("Add");
     };
 
     renderItem = ({ item }) => <RecipeItem data={item} />;

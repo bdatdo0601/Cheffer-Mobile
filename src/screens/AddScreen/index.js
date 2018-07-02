@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
-import SearchForm from "../../components/FormInput/SearchForm";
+import LinkForm from "../../components/FormInput/LinkForm";
 
 import styles from "./style";
 
@@ -11,14 +11,14 @@ const cancelButton = onCancel => (
     </TouchableOpacity>
 );
 
-class SearchScreen extends React.Component {
+class AddScreen extends React.Component {
     // This will declare the type of each object passed in this class
     static propTypes = {
         navigation: PropTypes.object,
     };
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
-            <SearchForm onSearch={navigation.getParam("onSearch", () => {})} />
+            <LinkForm onSubmit={navigation.getParam("onSubmit", () => {})} />
         ),
         headerRight: cancelButton(navigation.getParam("onCancel", () => {})),
     });
@@ -30,14 +30,14 @@ class SearchScreen extends React.Component {
     constructor(props) {
         super(props);
         props.navigation.setParams({
-            onSearch: this.onSearch,
+            onSubmit: this.onSubmit,
             onCancel: this.onCancel,
         });
     }
 
-    onSearch = searchVal => {
-        // Do search logic here
-        console.log(searchVal);
+    onSubmit = value => {
+        // Do add request here
+        console.log(value);
     };
 
     onCancel = () => {
@@ -53,4 +53,4 @@ class SearchScreen extends React.Component {
     }
 }
 
-export default SearchScreen;
+export default AddScreen;
