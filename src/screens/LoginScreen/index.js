@@ -3,8 +3,8 @@ import { View, Text } from "react-native";
 import PropTypes from "prop-types";
 import { StackActions, NavigationActions } from "react-navigation";
 
-import Icon from "react-native-vector-icons/FontAwesome";
-import { Input, Button } from "react-native-elements";
+// import Icon from "react-native-vector-icons/FontAwesome";
+// import { Input, Button } from "react-native-elements";
 
 import LoginForm from "../../components/FormInput/LoginForm";
 
