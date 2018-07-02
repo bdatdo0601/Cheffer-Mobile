@@ -1,8 +1,22 @@
 import React from "react";
+import { createStackNavigator } from "react-navigation";
+import PropTypes from "prop-types";
+import Icon from "react-native-vector-icons/Ionicons";
+import { View, FlatList, TouchableOpacity, Platform, Text } from "react-native";
+import { ButtonGroup } from "react-native-elements";
 import RecipeItem from "../../../components/RecipeItem";
-import { View, FlatList } from "react-native";
 import style from "./style";
 
+const headerTitleStyle = {
+    color: "rgba(0, 0, 0, .9)",
+    fontWeight: Platform.OS === "ios" ? "700" : "500",
+    fontSize: Platform.OS === "ios" ? 20 : 22,
+    textAlign: "center",
+    alignSelf: "center",
+    width: "100%",
+};
+
+// Should be removed after integration
 const list = [
     {
         name: "Burritos",
@@ -24,18 +38,88 @@ const list = [
     },
 ];
 
+const buttons = ["Recently Added", "Favorites"];
+
+const keyExtractor = (_, index) => index.toString();
+
+const clickableIcon = (iconName, onClick) => (
+    <TouchableOpacity onPress={onClick}>
+        <Icon
+            name={Platform.OS === "ios" ? `ios-${iconName}` : `md-${iconName}`}
+            size={25}
+            style={{ marginLeft: 16, marginRight: 16 }}
+        />
+    </TouchableOpacity>
+);
+
 class RecipesScreen extends React.Component {
-    keyExtractor = (_, index) => index.toString();
+    static propTypes = {
+        navigation: PropTypes.object,
+    };
+    static defaultProps = {
+        navigation: {},
+    };
+
+    static navigationOptions = ({ navigation }) => {
+        const { getParam } = navigation;
+        return {
+            headerTitle: <Text style={headerTitleStyle}>Recipe</Text>,
+            titleStyle: { alignSelf: "center" },
+            headerLeft: clickableIcon(
+                "search",
+                getParam("onSearchClick", () => {})
+            ),
+            headerRight: clickableIcon(
+                Platform.OS === "ios" ? "add-circle-outline" : "add-circle",
+                getParam("onAddClick", () => {})
+            ),
+        };
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            recipeList: list,
+            selectedListIndex: 0,
+        };
+        props.navigation.setParams({
+            onAddClick: this.onAddClick,
+            onSearchClick: this.onSearchClick,
+        });
+    }
+
+    onUpdatedListIndex = newListIndex => {
+        this.setState({
+            recipeList: list, // should be updated
+            selectedListIndex: newListIndex,
+        });
+    };
+
+    onSearchClick = () => {
+        console.log("search is clicked");
+    };
+
+    onAddClick = () => {
+        console.log("Add is clicked");
+    };
 
     renderItem = ({ item }) => <RecipeItem data={item} />;
 
     render() {
+        const { recipeList, selectedListIndex } = this.state;
+
         return (
             <View style={style.viewStyle}>
+                <ButtonGroup
+                    onPress={this.onUpdatedListIndex}
+                    selectedIndex={selectedListIndex}
+                    buttons={buttons}
+                    containerStyle={style.buttonGroupStyle}
+                />
                 <FlatList
                     style={style.flatListStyle}
-                    keyExtractor={this.keyExtractor}
-                    data={list}
+                    keyExtractor={keyExtractor}
+                    data={recipeList}
                     renderItem={this.renderItem}
                 />
             </View>
@@ -43,4 +127,11 @@ class RecipesScreen extends React.Component {
     }
 }
 
-export default RecipesScreen;
+// export default RecipesScreen;
+
+// Do this if you want a header bar on top
+export default createStackNavigator({
+    Recipe: {
+        screen: RecipesScreen,
+    },
+});

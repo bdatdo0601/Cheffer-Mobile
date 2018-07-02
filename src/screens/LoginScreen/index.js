@@ -22,6 +22,8 @@ class LoginScreen extends React.Component {
         navigation: {},
     };
 
+    static navigationOptions = { title: "Welcome", header: null };
+
     constructor(props) {
         super(props);
         this.state = { usernameError: "", passwordError: "" };
@@ -60,7 +62,6 @@ class LoginScreen extends React.Component {
     };
 
     render() {
-        const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>{config.APP_NAME}</Text>
