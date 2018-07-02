@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     flatListStyle: {
@@ -6,5 +6,9 @@ export default StyleSheet.create({
     },
     viewStyle: {
         height: "100%",
+    },
+    buttonGroupStyle: {
+        height: 40,
+        marginTop: 8,
     },
 });
