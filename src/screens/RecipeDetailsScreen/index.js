@@ -1,5 +1,5 @@
 import React from "react";
-import Recipe from "../../../components/Recipe";
+import Recipe from "../../components/Recipe";
 import { View } from "react-native";
 import style from "./style";
 
