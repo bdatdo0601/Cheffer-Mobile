@@ -1,23 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card } from "react-native-elements";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image } from "react-native";
 
 import style from "./style";
 
-class RecipeItem extends React.Component {
+class Recipe extends React.Component {
     // This will declare the type of each object passed in this class
     static propTypes = {
         onSearch: PropTypes.func,
-        onRecipePress: PropTypes.func,
         data: PropTypes.object,
     };
     // This will declare all the default properties passed in this class
     static defaultProps = {
         onSearch: () => {},
-        onRecipePress: () => {},
         data: {
-            id: "def",
             name: "Dat Do",
             avatar_url:
                 "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
@@ -35,20 +32,13 @@ class RecipeItem extends React.Component {
     render() {
         const data = this.props.data;
         return (
-            <TouchableOpacity onPress={() => this.props.onRecipePress(data.id)}>
-                <Card title={data.name}>
-                    <View key={data.name}>
-                        <Image
-                            style={style.image}
-                            //resizeMode="cover"
-                            source={{ uri: data.avatar_url }}
-                        />
-                        <Text /*style={style.name}*/>{data.title}</Text>
-                    </View>
-                </Card>
-            </TouchableOpacity>
+            <Card title={data.name}>
+                <View key={data.name}>
+                    <Text /*style={style.name}*/>{data.title}</Text>
+                </View>
+            </Card>
         );
     }
 }
 
-export default RecipeItem;
+export default Recipe;

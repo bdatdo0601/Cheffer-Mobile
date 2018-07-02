@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation";
 import HomeScreen from "../screens/HomeScreen";
 import SearchScreen from "../screens/SearchScreen";
 import LoginScreen from "../screens/LoginScreen";
+import RecipeDetailsScreen from "../screens/RecipeDetailsScreen";
 
 YellowBox.ignoreWarnings([
     "Warning: isMounted(...) is deprecated",
@@ -24,5 +25,8 @@ export default createStackNavigator({
         navigationOptions: {
             header: null,
         },
+    },
+    RecipeDetails: {
+        screen: RecipeDetailsScreen,
     },
 });
