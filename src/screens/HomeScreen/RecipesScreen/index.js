@@ -24,6 +24,8 @@ const list = [
         avatar_url:
             "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/2/14/0/FNK_breakfast-burrito_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382542427230.jpeg",
         subtitle: "Vice President",
+        prepTime: "1 hr",
+        rating: 2.3,
     },
     {
         id: "b",
@@ -31,6 +33,8 @@ const list = [
         avatar_url:
             "https://atmedia.imgix.net/0e56ab38542c762f226df9866314520e2fac6f6a?w=800&fit=max",
         subtitle: "Vice Chairman",
+        prepTime: "2 hr",
+        rating: 3.5,
     },
     {
         id: "c",
@@ -38,6 +42,8 @@ const list = [
         avatar_url:
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv4BjDKz1dCN5M9O6Iqhc5uKcRP6aQhM3CVGQOxFnhCgJSYxA",
         subtitle: "Weennnnn",
+        prepTime: "3 hr",
+        rating: 4.8,
     },
 ];
 
@@ -50,11 +56,11 @@ const clickableIcon = (iconName, onClick) => (
         <Icon
             name={Platform.OS === "ios" ? `ios-${iconName}` : `md-${iconName}`}
             size={25}
-            style={{ marginLeft: 16, marginRight: 16 }}
+            style={{ marginLeft: 18, marginRight: 16 }}
         />
     </TouchableOpacity>
 );
-
+/*  */
 class RecipesScreen extends React.Component {
     static propTypes = {
         navigation: PropTypes.object,
