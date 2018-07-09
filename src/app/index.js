@@ -13,11 +13,11 @@ YellowBox.ignoreWarnings([
 
 const mainStack = createStackNavigator(
     {
-        Home: {
-            screen: HomeScreen,
-        },
         Login: {
             screen: LoginScreen,
+        },
+        Home: {
+            screen: HomeScreen,
         },
         RecipeDetails: {
             screen: RecipeDetailsScreen,
