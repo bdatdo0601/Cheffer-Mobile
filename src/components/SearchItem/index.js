@@ -15,7 +15,7 @@ class RecipeItem extends React.Component {
     static defaultProps = {
         data: {
             name: "Dat Do",
-            avatar_url:
+            recipe_header_image:
                 "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
             subtitle: "Vice President",
         },
@@ -25,12 +25,12 @@ class RecipeItem extends React.Component {
     render() {
         const { data, onPress } = this.props;
         return (
-            <TouchableOpacity onPress={data => onPress(data)}>
+            <TouchableOpacity onPress={dataItem => onPress(dataItem)}>
                 <Card key={data.name}>
                     <View style={style.container}>
                         <Image
-                            style={style.image} // resizeMode="cover"
-                            source={{ uri: data.avatar_url }}
+                            style={style.image}
+                            source={{ uri: data.recipe_header_image }}
                         />
                         <View style={style.info}>
                             <Text style={style.title}>{data.name}</Text>

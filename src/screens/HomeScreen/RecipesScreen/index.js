@@ -1,4 +1,5 @@
 import React from "react";
+import Tts from "react-native-tts";
 import { createStackNavigator } from "react-navigation";
 import PropTypes from "prop-types";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -19,22 +20,31 @@ const headerTitleStyle = {
 // Should be removed after integration
 const list = [
     {
+        id: "a1",
         name: "Burritos",
-        avatar_url:
+        recipe_header_image:
             "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/2/14/0/FNK_breakfast-burrito_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382542427230.jpeg",
         subtitle: "Vice President",
+        prepTime: "1 hr",
+        rating: 2.5,
     },
     {
+        id: "b2",
         name: "Quesadillas",
-        avatar_url:
+        recipe_header_image:
             "https://atmedia.imgix.net/0e56ab38542c762f226df9866314520e2fac6f6a?w=800&fit=max",
         subtitle: "Vice Chairman",
+        prepTime: "2 hr",
+        rating: 3.5,
     },
     {
+        id: "c3",
         name: "Nachos",
-        avatar_url:
+        recipe_header_image:
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv4BjDKz1dCN5M9O6Iqhc5uKcRP6aQhM3CVGQOxFnhCgJSYxA",
         subtitle: "Weennnnn",
+        prepTime: "3 hr",
+        rating: 4.5,
     },
 ];
 
@@ -47,11 +57,11 @@ const clickableIcon = (iconName, onClick) => (
         <Icon
             name={Platform.OS === "ios" ? `ios-${iconName}` : `md-${iconName}`}
             size={25}
-            style={{ marginLeft: 16, marginRight: 16 }}
+            style={{ marginLeft: 18, marginRight: 16 }}
         />
     </TouchableOpacity>
 );
-
+/*  */
 class RecipesScreen extends React.Component {
     static propTypes = {
         navigation: PropTypes.object,
@@ -103,9 +113,17 @@ class RecipesScreen extends React.Component {
     onAddClick = () => {
         const { navigation } = this.props;
         navigation.navigate("Add");
+        Tts.speak("henfejh aefhga ea fha fkae");
     };
 
-    renderItem = ({ item }) => <RecipeItem data={item} />;
+    onRecipePress = currentRecipeId => {
+        const { navigation } = this.props;
+        navigation.navigate("RecipeDetails", { currentRecipeId });
+    };
+
+    renderItem = ({ item }) => (
+        <RecipeItem data={item} onRecipePress={this.onRecipePress} />
+    );
 
     render() {
         const { recipeList, selectedListIndex } = this.state;

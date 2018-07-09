@@ -1,47 +1,61 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card } from "react-native-elements";
-import { View, Text, Image } from "react-native";
+import { Tile } from "react-native-elements";
+import { Text, View } from "react-native";
+import Stars from "react-native-stars-rating";
+// import Tts from "react-native-tts";
 
-import style from "./style";
+// import style from "./style";
 
 class RecipeItem extends React.Component {
     // This will declare the type of each object passed in this class
     static propTypes = {
-        onSearch: PropTypes.func,
+        onRecipePress: PropTypes.func,
         data: PropTypes.object,
     };
     // This will declare all the default properties passed in this class
     static defaultProps = {
-        onSearch: () => {},
+        onRecipePress: () => {},
         data: {
+            id: "def",
             name: "Dat Do",
-            avatar_url:
+            recipe_header_image:
                 "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
             subtitle: "Vice President",
+            prepTime: "1 hr",
+            rating: 5,
         },
     };
 
     constructor(props) {
         super(props);
-        this.state = {
-            searching: "",
-        };
+        this.state = {};
     }
 
     render() {
-        const data = this.props.data;
+        const { data } = this.props;
         return (
-            <Card title={data.name}>
-                <View key={data.name}>
-                    <Image
-                        style={style.image}
-                        // resizeMode="cover"
-                        source={{ uri: data.avatar_url }}
+            <Tile
+                title={data.name}
+                imageSrc={{
+                    uri: data.recipe_header_image,
+                }}
+                onPress={() => this.props.onRecipePress(data.id)}
+            >
+                <View>
+                    <Text>Prep Time: {data.prepTime}</Text>
+                    <Stars
+                        style={{ textAlign: "center" }}
+                        rateMax={5}
+                        isHalfStarEnabled
+                        onStarPress={rating => {
+                            console.log(rating);
+                        }}
+                        rate={data.rating}
+                        size={30}
                     />
-                    <Text /*style={style.name} */>{data.title}</Text>
                 </View>
-            </Card>
+            </Tile>
         );
     }
 }

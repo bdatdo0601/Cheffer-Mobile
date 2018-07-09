@@ -3,6 +3,7 @@ import { createStackNavigator } from "react-navigation";
 import HomeScreen from "../screens/HomeScreen";
 import SearchScreen from "../screens/SearchScreen";
 import LoginScreen from "../screens/LoginScreen";
+import RecipeDetailsScreen from "../screens/RecipeDetailsScreen";
 import AddScreen from "../screens/AddScreen";
 
 YellowBox.ignoreWarnings([
@@ -17,6 +18,9 @@ const mainStack = createStackNavigator(
         },
         Login: {
             screen: LoginScreen,
+        },
+        RecipeDetails: {
+            screen: RecipeDetailsScreen,
         },
     },
     {
