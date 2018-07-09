@@ -1,9 +1,12 @@
+import PropTypes from "prop-types";
+import { Text } from "react-native";
+import { createStackNavigator } from "react-navigation";
 import React from "react";
 import Recipe from "../../components/Recipe";
-import { View } from "react-native";
-import style from "./style";
 
 const recipe = {
+    image_url:
+        "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
     name: "bread rolls",
     ingredients: [
         {
@@ -56,14 +59,49 @@ const recipe = {
     ],
 };
 
-class RecipesScreen extends React.Component {
-    keyExtractor = (_, index) => index.toString();
+class RecipeDetailsScreen extends React.Component {
+    static propTypes = {
+        navigation: PropTypes.object,
+    };
+    static defaultProps = {
+        navigation: {},
+    };
 
-    renderItem = ({ recipe }) => <Recipe data={recipe} />;
+    static navigationOptions = ({ navigation }) => {
+        const { getParam } = navigation;
+        return {
+            headerTitle: <Text style={headerTitleStyle}>Recipe</Text>,
+            titleStyle: { alignSelf: "center" },
+            headerLeft: clickableIcon(
+                "search",
+                getParam("onSearchClick", () => {})
+            ),
+            headerRight: clickableIcon(
+                Platform.OS === "ios" ? "add-circle-outline" : "add-circle",
+                getParam("onAddClick", () => {})
+            ),
+        };
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {};
+        props.navigation.setParams({
+            onAddClick: this.onAddClick,
+            onSearchClick: this.onSearchClick,
+        });
+    }
 
     render() {
-        return <View style={style.viewStyle}>data={recipe}</View>;
+        return <Recipe data={recipe} />;
     }
 }
 
-export default RecipesScreen;
+// export default RecipesScreen;
+
+// Do this if you want a header bar on top
+export default createStackNavigator({
+    RecipeDetails: {
+        screen: RecipeDetailsScreen,
+    },
+});

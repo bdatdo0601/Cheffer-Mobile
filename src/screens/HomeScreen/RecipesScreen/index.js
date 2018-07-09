@@ -1,4 +1,5 @@
 import React from "react";
+import Tts from "react-native-tts";
 import { createStackNavigator } from "react-navigation";
 import PropTypes from "prop-types";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -25,7 +26,7 @@ const list = [
             "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/2/14/0/FNK_breakfast-burrito_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382542427230.jpeg",
         subtitle: "Vice President",
         prepTime: "1 hr",
-        rating: 2.3,
+        rating: 2.5,
     },
     {
         id: "b",
@@ -43,7 +44,7 @@ const list = [
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv4BjDKz1dCN5M9O6Iqhc5uKcRP6aQhM3CVGQOxFnhCgJSYxA",
         subtitle: "Weennnnn",
         prepTime: "3 hr",
-        rating: 4.8,
+        rating: 4.5,
     },
 ];
 
@@ -106,14 +107,17 @@ class RecipesScreen extends React.Component {
 
     onSearchClick = () => {
         console.log("search is clicked");
+        Tts.speak("Hello, world!");
     };
 
     onAddClick = () => {
         console.log("Add is clicked");
+        Tts.speak("Hello, world!");
     };
 
     onRecipePress = id => {
         console.log("hi Recipe id", id);
+        Tts.speak("Hello, world!");
     };
 
     renderItem = ({ item }) => (

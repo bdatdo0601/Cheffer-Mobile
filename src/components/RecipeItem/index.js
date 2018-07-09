@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Tile } from "react-native-elements";
 import { Text, View } from "react-native";
+import Stars from "react-native-stars-rating";
+// import Tts from "react-native-tts";
 
 // import style from "./style";
 
@@ -42,6 +44,16 @@ class RecipeItem extends React.Component {
             >
                 <View>
                     <Text>Prep Time: {data.prepTime}</Text>
+                    <Stars
+                        style={{ textAlign: "center" }}
+                        rateMax={5}
+                        isHalfStarEnabled
+                        onStarPress={rating => {
+                            console.log(rating);
+                        }}
+                        rate={data.rating}
+                        size={30}
+                    />
                 </View>
             </Tile>
         );
