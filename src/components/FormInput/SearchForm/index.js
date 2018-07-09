@@ -15,24 +15,14 @@ class SearchForm extends React.Component {
         onSearch: () => {},
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            searching: "",
-        };
-    }
-
     render() {
         const { onSearch } = this.props;
 
         return (
             <SearchBar
-                placeholder="Search meeee"
+                placeholder="Search"
                 round
-                onChangeText={searching => {
-                    this.setState({ searching });
-                    onSearch(searching);
-                }}
+                onChangeText={onSearch}
                 containerStyle={styles.containerStyle}
                 inputContainerStyle={styles.inputContainerStyle}
                 searchIcon={{ size: 20 }}

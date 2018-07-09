@@ -4,29 +4,46 @@ import HomeScreen from "../screens/HomeScreen";
 import SearchScreen from "../screens/SearchScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RecipeDetailsScreen from "../screens/RecipeDetailsScreen";
+import AddScreen from "../screens/AddScreen";
 
 YellowBox.ignoreWarnings([
     "Warning: isMounted(...) is deprecated",
     "Module RCTImageLoader",
 ]);
 
-export default createStackNavigator({
-    Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-            header: null,
+const mainStack = createStackNavigator(
+    {
+        Home: {
+            screen: HomeScreen,
+        },
+        Login: {
+            screen: LoginScreen,
+        },
+        RecipeDetails: {
+            screen: RecipeDetailsScreen,
         },
     },
-    Login: {
-        screen: LoginScreen,
-    },
-    Search: {
-        screen: SearchScreen,
-        navigationOptions: {
-            header: null,
+    {
+        headerMode: "none",
+    }
+);
+
+export default createStackNavigator(
+    {
+        Main: {
+            screen: mainStack,
+            navigationOptions: {
+                header: null,
+            },
+        },
+        Search: {
+            screen: SearchScreen,
+        },
+        Add: {
+            screen: AddScreen,
         },
     },
-    RecipeDetails: {
-        screen: RecipeDetailsScreen,
-    },
-});
+    {
+        mode: "modal",
+    }
+);

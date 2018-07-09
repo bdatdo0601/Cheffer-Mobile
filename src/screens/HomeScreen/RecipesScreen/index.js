@@ -22,7 +22,7 @@ const list = [
     {
         id: "a",
         name: "Burritos",
-        avatar_url:
+        recipe_header_image:
             "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/2/14/0/FNK_breakfast-burrito_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382542427230.jpeg",
         subtitle: "Vice President",
         prepTime: "1 hr",
@@ -31,7 +31,7 @@ const list = [
     {
         id: "b",
         name: "Quesadillas",
-        avatar_url:
+        recipe_header_image:
             "https://atmedia.imgix.net/0e56ab38542c762f226df9866314520e2fac6f6a?w=800&fit=max",
         subtitle: "Vice Chairman",
         prepTime: "2 hr",
@@ -40,7 +40,7 @@ const list = [
     {
         id: "c",
         name: "Nachos",
-        avatar_url:
+        recipe_header_image:
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv4BjDKz1dCN5M9O6Iqhc5uKcRP6aQhM3CVGQOxFnhCgJSYxA",
         subtitle: "Weennnnn",
         prepTime: "3 hr",
@@ -106,18 +106,14 @@ class RecipesScreen extends React.Component {
     };
 
     onSearchClick = () => {
-        console.log("search is clicked");
-        Tts.speak("Hello, world!");
+        const { navigation } = this.props;
+        navigation.navigate("Search");
     };
 
     onAddClick = () => {
-        console.log("Add is clicked");
-        Tts.speak("Hello, world!");
-    };
-
-    onRecipePress = id => {
-        console.log("hi Recipe id", id);
-        Tts.speak("Hello, world!");
+        const { navigation } = this.props;
+        navigation.navigate("Add");
+        Tts.speak("henfejh aefhga ea fha fkae");
     };
 
     renderItem = ({ item }) => (

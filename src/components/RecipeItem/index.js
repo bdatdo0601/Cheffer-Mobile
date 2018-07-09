@@ -19,7 +19,7 @@ class RecipeItem extends React.Component {
         data: {
             id: "def",
             name: "Dat Do",
-            avatar_url:
+            recipe_header_image:
                 "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
             subtitle: "Vice President",
             prepTime: "1 hr",
@@ -38,7 +38,7 @@ class RecipeItem extends React.Component {
             <Tile
                 title={data.name}
                 imageSrc={{
-                    uri: data.avatar_url,
+                    uri: data.recipe_header_image,
                 }}
                 onPress={() => this.props.onRecipePress(data.id)}
             >
