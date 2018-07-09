@@ -1,9 +1,6 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    flatListStyle: {
-        height: "100%",
-    },
     cancelButton: {
         marginRight: 8,
     },

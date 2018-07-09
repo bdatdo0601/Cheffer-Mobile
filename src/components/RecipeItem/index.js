@@ -36,10 +36,10 @@ class RecipeItem extends React.Component {
                 <View key={data.name}>
                     <Image
                         style={style.image}
-                        //resizeMode="cover"
+                        // resizeMode="cover"
                         source={{ uri: data.avatar_url }}
                     />
-                    <Text /*style={style.name}*/>{data.title}</Text>
+                    <Text /*style={style.name} */>{data.title}</Text>
                 </View>
             </Card>
         );

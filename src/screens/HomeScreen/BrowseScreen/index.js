@@ -1,6 +1,6 @@
 import React from "react";
-import RecipeItem from "../../../components/RecipeItem";
 import { View, FlatList } from "react-native";
+import RecipeItem from "../../../components/RecipeItem";
 import style from "./style";
 
 const list = [
