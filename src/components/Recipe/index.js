@@ -20,7 +20,7 @@ class Recipe extends React.Component {
                     measurement: "silver",
                 },
                 {
-                    ingredient: "come",
+                    ingredient: "food",
                     amount: 2,
                     measurement: "oz.",
                 },

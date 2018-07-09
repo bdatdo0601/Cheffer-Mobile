@@ -20,7 +20,7 @@ const headerTitleStyle = {
 // Should be removed after integration
 const list = [
     {
-        id: "a",
+        id: "a1",
         name: "Burritos",
         recipe_header_image:
             "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/2/14/0/FNK_breakfast-burrito_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382542427230.jpeg",
@@ -29,7 +29,7 @@ const list = [
         rating: 2.5,
     },
     {
-        id: "b",
+        id: "b2",
         name: "Quesadillas",
         recipe_header_image:
             "https://atmedia.imgix.net/0e56ab38542c762f226df9866314520e2fac6f6a?w=800&fit=max",
@@ -38,7 +38,7 @@ const list = [
         rating: 3.5,
     },
     {
-        id: "c",
+        id: "c3",
         name: "Nachos",
         recipe_header_image:
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv4BjDKz1dCN5M9O6Iqhc5uKcRP6aQhM3CVGQOxFnhCgJSYxA",
@@ -114,6 +114,12 @@ class RecipesScreen extends React.Component {
         const { navigation } = this.props;
         navigation.navigate("Add");
         Tts.speak("henfejh aefhga ea fha fkae");
+    };
+
+    onRecipePress = currentRecipeId => {
+        console.warn("hi", currentRecipeId);
+        const { navigation } = this.props;
+        navigation.navigate("RecipeDetails", { currentRecipeId });
     };
 
     renderItem = ({ item }) => (

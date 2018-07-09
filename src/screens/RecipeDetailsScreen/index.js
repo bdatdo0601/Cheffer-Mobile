@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { Text } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import React from "react";
 import Recipe from "../../components/Recipe";
@@ -15,7 +14,7 @@ const recipe = {
             measurement: "silver",
         },
         {
-            ingredient: "come",
+            ingredient: "food",
             amount: 2,
             measurement: "oz.",
         },
@@ -67,29 +66,14 @@ class RecipeDetailsScreen extends React.Component {
         navigation: {},
     };
 
-    static navigationOptions = ({ navigation }) => {
-        const { getParam } = navigation;
-        return {
-            headerTitle: <Text style={headerTitleStyle}>Recipe</Text>,
-            titleStyle: { alignSelf: "center" },
-            headerLeft: clickableIcon(
-                "search",
-                getParam("onSearchClick", () => {})
-            ),
-            headerRight: clickableIcon(
-                Platform.OS === "ios" ? "add-circle-outline" : "add-circle",
-                getParam("onAddClick", () => {})
-            ),
-        };
-    };
+    static navigationOptions = () => {};
 
     constructor(props) {
         super(props);
-        this.state = {};
-        props.navigation.setParams({
-            onAddClick: this.onAddClick,
-            onSearchClick: this.onSearchClick,
-        });
+        this.state = {
+            data: props.navigation.getParam("currentRecipeId", "defaultRecipe"),
+        };
+        console.log(this.state.data);
     }
 
     render() {
