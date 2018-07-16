@@ -9,12 +9,18 @@
         "test": "jest"
     },
     "dependencies": {
+        "apollo-boost": "^0.1.10",
+        "apollo-client": "^2.3.5",
+        "axios": "^0.18.0",
         "class-autobind": "^0.1.4",
         "eslint-plugin-import": "^2.6.0",
+        "graphql": "^0.13.2",
+        "graphql-tag": "^2.9.2",
         "lodash": "^4.17.5",
         "moment": "^2.22.0",
         "prop-types": "^15.6.0",
         "react": "16.3.1",
+        "react-apollo": "^2.1.9",
         "react-native": "0.55.4",
         "react-native-elements": "^1.0.0-beta5",
         "react-native-stars-rating": "^0.1.7",
@@ -25,6 +31,7 @@
     "devDependencies": {
         "babel-eslint": "8",
         "babel-jest": "23.0.1",
+        "babel-plugin-graphql-tag": "^1.6.0",
         "babel-plugin-import": "^1.6.4",
         "babel-preset-react-native": "4.0.0",
         "eslint": "4.x",

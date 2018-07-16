@@ -2,6 +2,9 @@ import React from "react";
 import { View, Text } from "react-native";
 import PropTypes from "prop-types";
 import { StackActions, NavigationActions } from "react-navigation";
+import { Query } from "react-apollo";
+
+import userQuery from "./query";
 
 // import Icon from "react-native-vector-icons/FontAwesome";
 // import { Input, Button } from "react-native-elements";
@@ -63,16 +66,25 @@ class LoginScreen extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.title}>{config.APP_NAME}</Text>
-                <LoginForm
-                    displaySignup
-                    onLogin={this.onLogin}
-                    onSignup={this.onSignup}
-                    passwordErrorMessage={this.state.passwordError}
-                    usernameErrorMessage={this.state.usernameError}
-                />
-            </View>
+            <Query query={userQuery}>
+                {({ loading, error, data }) => {
+                    if (loading) return <Text>Loading...</Text>;
+                    if (error) return <Text>{`Error! ${error.message}`}</Text>;
+                    console.log(data);
+                    return (
+                        <View style={styles.container}>
+                            <Text style={styles.title}>{config.APP_NAME}</Text>
+                            <LoginForm
+                                displaySignup
+                                onLogin={this.onLogin}
+                                onSignup={this.onSignup}
+                                passwordErrorMessage={this.state.passwordError}
+                                usernameErrorMessage={this.state.usernameError}
+                            />
+                        </View>
+                    );
+                }}
+            </Query>
         );
     }
 }
