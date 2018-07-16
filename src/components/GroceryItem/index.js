@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, CheckBox } from "react-native-elements";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
 import style from "./style";
 
@@ -16,6 +16,7 @@ class GroceryItem extends React.Component {
     static propTypes = {
         data: PropTypes.object,
         onCheckItem: PropTypes.func,
+        onItemClick: PropTypes.func,
     };
     // This will declare all the default properties passed in this class
     static defaultProps = {
@@ -31,32 +32,39 @@ class GroceryItem extends React.Component {
             ingredientGroup: ["Meat", "Protein"],
         },
         onCheckItem: () => {},
+        onItemClick: () => {},
     };
 
     render() {
         const { data } = this.props;
         return (
             <Card>
-                <View style={style.container}>
-                    <Image
-                        style={style.image}
-                        source={{ uri: data.ingredientImage }}
-                    />
-                    <View style={style.info}>
-                        <Text style={style.title}>{data.ingredientName}</Text>
-                        <Text>{`${data.amount} ${data.measurement}`}</Text>
-                        <Text>
-                            {`Type: ${arrayItemToString(data.ingredientType)}`}
-                        </Text>
-                    </View>
-                    <View>
-                        <CheckBox
-                            checked={data.isChecked}
-                            onPress={this.props.onCheckItem}
-                            containerStyle={{ marginLeft: 24 }}
+                <TouchableOpacity onPress={this.props.onItemClick}>
+                    <View style={style.container}>
+                        <Image
+                            style={style.image}
+                            source={{ uri: data.ingredientImage }}
                         />
+                        <View style={style.info}>
+                            <Text style={style.title}>
+                                {data.ingredientName}
+                            </Text>
+                            <Text>{`${data.amount} ${data.measurement}`}</Text>
+                            <Text>
+                                {`Type: ${arrayItemToString(
+                                    data.ingredientType
+                                )}`}
+                            </Text>
+                        </View>
+                        <View>
+                            <CheckBox
+                                checked={data.isChecked}
+                                onPress={this.props.onCheckItem}
+                                containerStyle={{ marginLeft: 24 }}
+                            />
+                        </View>
                     </View>
-                </View>
+                </TouchableOpacity>
             </Card>
         );
     }

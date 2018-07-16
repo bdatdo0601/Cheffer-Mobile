@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { View, FlatList, Text, Platform } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import GroceryItem from "../../../components/GroceryItem";
@@ -59,6 +60,14 @@ class GroceriesScreen extends React.Component {
             titleStyle: { alignSelf: "center" },
         });
 
+    static propTypes = {
+        navigation: PropTypes.object,
+    };
+
+    static defaultProps = {
+        navigation: {},
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -74,10 +83,15 @@ class GroceriesScreen extends React.Component {
         this.setState({ groceryList: updatedGroceryList });
     };
 
+    onItemClick = item => {
+        this.props.navigation.navigate("GroceryDetails", { item });
+    };
+
     renderItem = ({ item, index }) => (
         <GroceryItem
             data={item}
             onCheckItem={() => this.toggleCheckBox(item, index)}
+            onItemClick={() => this.onItemClick(item)}
         />
     );
 
