@@ -21,7 +21,7 @@ class RecipeDetailsScreen extends React.Component {
     }
 
     render() {
-        return <Recipe data={this.state.data} />;
+        return <Recipe data={{ data: this.state.data }} />;
     }
 }
 

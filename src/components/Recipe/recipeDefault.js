@@ -1,6 +1,6 @@
 const recipeDefault = {
-    image_url:
-        "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+    recipe_header_image:
+        "https://d2gk7xgygi98cy.cloudfront.net/3863-3-large.jpg",
     name: "bread rolls",
     ingredients: [
         {
@@ -14,6 +14,7 @@ const recipeDefault = {
             measurement: "oz.",
         },
     ],
+    prepTime: "3 hours",
     steps: [
         "put your left foot in",
         "take your left foot out",
@@ -42,6 +43,24 @@ const recipeDefault = {
                     id: "2ot2o",
                     userId: "fba697e",
                     comment: "Really? I thought it was terrible",
+                    reply: [],
+                    likes: 32,
+                    time: "some date format",
+                },
+            ],
+            likes: 256,
+            time: "some date format",
+        },
+        {
+            id: "e4af4",
+            userId: "a4few4",
+            comment: "EWWW MAN THIS CH'MAD NAST BRUH",
+            reply: [
+                {
+                    id: "nfozr6z",
+                    userId: "23br22",
+                    comment:
+                        "Fuck you, I spent 7 months perfecting this recipe.",
                     reply: [],
                     likes: 32,
                     time: "some date format",
