@@ -5,6 +5,7 @@ import SearchScreen from "../screens/SearchScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RecipeDetailsScreen from "../screens/RecipeDetailsScreen";
 import AddScreen from "../screens/AddScreen";
+import GroceryDetailsScreen from "../screens/GroceryDetailsScreen";
 
 YellowBox.ignoreWarnings([
     "Warning: isMounted(...) is deprecated",
@@ -41,6 +42,9 @@ export default createStackNavigator(
         },
         Add: {
             screen: AddScreen,
+        },
+        GroceryDetails: {
+            screen: GroceryDetailsScreen,
         },
     },
     {
