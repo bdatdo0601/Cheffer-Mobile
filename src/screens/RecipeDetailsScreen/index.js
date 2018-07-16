@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
-import { createStackNavigator } from "react-navigation";
+import { Text } from "react-native";
 import React from "react";
 import Recipe from "../../components/Recipe";
+import clickableIcon from "../../components/Icon";
 
 class RecipeDetailsScreen extends React.Component {
     static propTypes = {
@@ -11,13 +12,28 @@ class RecipeDetailsScreen extends React.Component {
         navigation: {},
     };
 
-    static navigationOptions = () => {};
+    static navigationOptions = ({ navigation }) => ({
+        headerTitle: <Text>RecipeMeeee</Text>,
+        headerLeft: clickableIcon(
+            "arrow-back",
+            navigation.getParam("onBack", () => {
+                console.warn("nadlwhblfh");
+            })
+        ),
+    });
+
+    onBack = () => {
+        this.props.navigation.goBack();
+    };
 
     constructor(props) {
         super(props);
         this.state = {
             data: props.navigation.getParam("currentRecipeId", "defaultRecipe"),
         };
+        props.navigation.setParams({
+            onBack: this.onBack,
+        });
     }
 
     render() {
@@ -28,8 +44,4 @@ class RecipeDetailsScreen extends React.Component {
 // export default RecipesScreen;
 
 // Do this if you want a header bar on top
-export default createStackNavigator({
-    RecipeDetails: {
-        screen: RecipeDetailsScreen,
-    },
-});
+export default RecipeDetailsScreen;

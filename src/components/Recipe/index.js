@@ -88,7 +88,7 @@ class Recipe extends React.Component {
                             Ingredients
                         </Text>
                         <FlatList
-                            kkeyExtractor={this.keyExtractor}
+                            keyExtractor={this.keyExtractor}
                             data={data.ingredients}
                             renderItem={this.renderIngredient}
                         />
