@@ -1,18 +1,17 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation";
 import PropTypes from "prop-types";
-import Icon from "react-native-vector-icons/Ionicons";
 import {
     ActivityIndicator,
     View,
     FlatList,
-    TouchableOpacity,
     Platform,
     Text,
 } from "react-native";
 import RecipeItem from "../../../components/RecipeItem";
 import style from "./style";
 import edamamAPI from "../../../utils/edamamAPI";
+import clickableIcon from "../../../components/Icon";
 
 const headerTitleStyle = {
     color: "rgba(0, 0, 0, .9)",
@@ -37,16 +36,6 @@ const recipeKeywordList = [
 
 const keyExtractor = (_, index) => index.toString();
 
-const clickableIcon = (iconName, onClick) => (
-    <TouchableOpacity onPress={onClick}>
-        <Icon
-            name={Platform.OS === "ios" ? `ios-${iconName}` : `md-${iconName}`}
-            size={25}
-            style={{ marginLeft: 18, marginRight: 16 }}
-        />
-    </TouchableOpacity>
-);
-/*  */
 class BrowseScreen extends React.Component {
     static propTypes = {
         navigation: PropTypes.object,

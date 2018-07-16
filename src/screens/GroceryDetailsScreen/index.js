@@ -1,19 +1,9 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Platform } from "react-native";
+import { View, Text } from "react-native";
 import PropTypes from "prop-types";
-import Icon from "react-native-vector-icons/Ionicons";
+import clickableIcon from "../../components/Icon";
 
 import styles from "./style";
-
-const clickableIcon = (iconName, onClick) => (
-    <TouchableOpacity onPress={onClick}>
-        <Icon
-            name={Platform.OS === "ios" ? `ios-${iconName}` : `md-${iconName}`}
-            size={25}
-            style={{ marginLeft: 18, marginRight: 16 }}
-        />
-    </TouchableOpacity>
-);
 
 class GroceryDetailsScreen extends React.Component {
     // This will declare the type of each object passed in this class

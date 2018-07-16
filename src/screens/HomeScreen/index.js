@@ -1,13 +1,17 @@
 /* eslint-disable */
 import React from "react";
 import PropTypes from "prop-types";
-import { createBottomTabNavigator } from "react-navigation";
+import {
+    createBottomTabNavigator,
+    createStackNavigator,
+} from "react-navigation";
 import { Platform, Text } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import RecipesScreen from "./RecipesScreen";
 import GroceriesScreen from "./GroceriesScreen";
 import BrowseScreen from "./BrowseScreen";
-import SettingsScreen from "./SettingsScreen";
+import RecipeDetailsScreen from "../RecipeDetailsScreen";
+// import SettingsScreen from "./SettingsScreen";
 
 const tabNav = createBottomTabNavigator(
     {
@@ -75,4 +79,14 @@ const tabNav = createBottomTabNavigator(
     }
 );
 
-export default tabNav;
+export default createStackNavigator({
+    Main: {
+        screen: tabNav,
+        navigationOptions: {
+            header: null,
+        },
+    },
+    RecipeDetails: {
+        screen: RecipeDetailsScreen,
+    },
+});

@@ -2,11 +2,11 @@ import React from "react";
 import Tts from "react-native-tts";
 import { createStackNavigator } from "react-navigation";
 import PropTypes from "prop-types";
-import Icon from "react-native-vector-icons/Ionicons";
-import { View, FlatList, TouchableOpacity, Platform, Text } from "react-native";
+import { View, FlatList, Platform, Text } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 import RecipeItem from "../../../components/RecipeItem";
 import style from "./style";
+import clickableIcon from "../../../components/Icon";
 
 const headerTitleStyle = {
     color: "rgba(0, 0, 0, .9)",
@@ -52,16 +52,6 @@ const buttons = ["Recently Added", "Favorites"];
 
 const keyExtractor = (_, index) => index.toString();
 
-const clickableIcon = (iconName, onClick) => (
-    <TouchableOpacity onPress={onClick}>
-        <Icon
-            name={Platform.OS === "ios" ? `ios-${iconName}` : `md-${iconName}`}
-            size={25}
-            style={{ marginLeft: 18, marginRight: 16 }}
-        />
-    </TouchableOpacity>
-);
-/*  */
 class RecipesScreen extends React.Component {
     static propTypes = {
         navigation: PropTypes.object,
@@ -118,6 +108,7 @@ class RecipesScreen extends React.Component {
 
     onRecipePress = currentRecipeId => {
         const { navigation } = this.props;
+        // console.warn(currentRecipeId);
         navigation.navigate("RecipeDetails", { currentRecipeId });
     };
 
