@@ -70,7 +70,7 @@ class LoginScreen extends React.Component {
                 {({ loading, error, data }) => {
                     if (loading) return <Text>Loading...</Text>;
                     if (error) return <Text>{`Error! ${error.message}`}</Text>;
-                    console.warn(data);
+                    console.log(data);
                     return (
                         <View style={styles.container}>
                             <Text style={styles.title}>{config.APP_NAME}</Text>
