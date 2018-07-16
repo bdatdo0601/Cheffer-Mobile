@@ -54,19 +54,19 @@ const tabNav = createBottomTabNavigator(
                 ),
             },
         },
-        TabItem4: {
-            screen: SettingsScreen,
-            navigationOptions: {
-                tabBarLabel: "Settings",
-                tabBarIcon: ({ tintColor }) => (
-                    <Icon
-                        name={Platform.OS === "ios" ? "ios-cog" : "md-cog"}
-                        size={30}
-                        color={tintColor}
-                    />
-                ),
-            },
-        },
+        // TabItem4: {
+        //     screen: SettingsScreen,
+        //     navigationOptions: {
+        //         tabBarLabel: "Settings",
+        //         tabBarIcon: ({ tintColor }) => (
+        //             <Icon
+        //                 name={Platform.OS === "ios" ? "ios-cog" : "md-cog"}
+        //                 size={30}
+        //                 color={tintColor}
+        //             />
+        //         ),
+        //     },
+        // },
     },
     {
         tabBarOptions: {
