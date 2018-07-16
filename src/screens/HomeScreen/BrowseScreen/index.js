@@ -1,41 +1,141 @@
 import React from "react";
-import { View, FlatList } from "react-native";
+import { createStackNavigator } from "react-navigation";
+import PropTypes from "prop-types";
+import Icon from "react-native-vector-icons/Ionicons";
+import {
+    ActivityIndicator,
+    View,
+    FlatList,
+    TouchableOpacity,
+    Platform,
+    Text,
+} from "react-native";
 import RecipeItem from "../../../components/RecipeItem";
 import style from "./style";
+import edamamAPI from "../../../utils/edamamAPI";
 
-const list = [
-    {
-        name: "Burritos",
-        recipe_header_image:
-            "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/2/14/0/FNK_breakfast-burrito_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382542427230.jpeg",
-        subtitle: "Vice President",
-    },
-    {
-        name: "Quesadillas",
-        recipe_header_image:
-            "https://atmedia.imgix.net/0e56ab38542c762f226df9866314520e2fac6f6a?w=800&fit=max",
-        subtitle: "Vice Chairman",
-    },
-    {
-        name: "Nachos",
-        recipe_header_image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv4BjDKz1dCN5M9O6Iqhc5uKcRP6aQhM3CVGQOxFnhCgJSYxA",
-        subtitle: "Weennnnn",
-    },
+const headerTitleStyle = {
+    color: "rgba(0, 0, 0, .9)",
+    fontWeight: Platform.OS === "ios" ? "700" : "500",
+    fontSize: Platform.OS === "ios" ? 20 : 22,
+    textAlign: "center",
+    alignSelf: "center",
+    width: "100%",
+};
+
+const recipeKeywordList = [
+    "Chicken",
+    "Beef",
+    "Salad",
+    "Pork",
+    "Vegan",
+    "Cake",
+    "Rabbit",
+    "Lamb",
+    "Potato",
 ];
 
-class BrowseScreen extends React.Component {
-    keyExtractor = (_, index) => index.toString();
+const keyExtractor = (_, index) => index.toString();
 
-    renderItem = ({ item }) => <RecipeItem data={item} />;
+const clickableIcon = (iconName, onClick) => (
+    <TouchableOpacity onPress={onClick}>
+        <Icon
+            name={Platform.OS === "ios" ? `ios-${iconName}` : `md-${iconName}`}
+            size={25}
+            style={{ marginLeft: 18, marginRight: 16 }}
+        />
+    </TouchableOpacity>
+);
+/*  */
+class BrowseScreen extends React.Component {
+    static propTypes = {
+        navigation: PropTypes.object,
+    };
+    static defaultProps = {
+        navigation: {},
+    };
+
+    static navigationOptions = ({ navigation }) => {
+        const { getParam } = navigation;
+        return {
+            headerTitle: <Text style={headerTitleStyle}>Browse</Text>,
+            titleStyle: { alignSelf: "center" },
+            headerLeft: clickableIcon(
+                "search",
+                getParam("onSearchClick", () => {})
+            ),
+            headerRight: clickableIcon(
+                Platform.OS === "ios" ? "add-circle-outline" : "add-circle",
+                getParam("onAddClick", () => {})
+            ),
+        };
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            recipeList: [],
+        };
+        props.navigation.setParams({
+            onAddClick: this.onAddClick,
+            onSearchClick: this.onSearchClick,
+        });
+    }
+
+    onSearchClick = () => {
+        const { navigation } = this.props;
+        navigation.navigate("Search");
+    };
+
+    onAddClick = () => {
+        const { navigation } = this.props;
+        navigation.navigate("Add");
+    };
+
+    onRecipePress = currentRecipeId => {
+        const { navigation } = this.props;
+        navigation.navigate("RecipeDetails", { currentRecipeId });
+    };
+
+    componentDidMount() {
+        edamamAPI
+            .getRecipesFromAPI(
+                0,
+                100,
+                recipeKeywordList[
+                    Math.floor(Math.random() * recipeKeywordList.length)
+                ]
+            )
+            .then(res => {
+                const recipeData = res.data.hits.map(item => ({
+                    ...item,
+                    id: item.recipe.uri,
+                    name: item.recipe.label,
+                    recipe_header_image: item.recipe.image,
+                    prepTime: item.recipe.totalTime,
+                }));
+                this.setState({ recipeList: recipeData });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    renderItem = ({ item }) => (
+        <RecipeItem data={item} onRecipePress={this.onRecipePress} />
+    );
 
     render() {
+        const { recipeList } = this.state;
+        if (recipeList.length === 0) {
+            return <ActivityIndicator size="large" color="#0000ff" />;
+        }
         return (
             <View style={style.viewStyle}>
                 <FlatList
                     style={style.flatListStyle}
-                    keyExtractor={this.keyExtractor}
-                    data={list}
+                    keyExtractor={keyExtractor}
+                    data={recipeList}
                     renderItem={this.renderItem}
                 />
             </View>
@@ -43,4 +143,9 @@ class BrowseScreen extends React.Component {
     }
 }
 
-export default BrowseScreen;
+// Do this if you want a header bar on top
+export default createStackNavigator({
+    Browse: {
+        screen: BrowseScreen,
+    },
+});
