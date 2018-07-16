@@ -28,6 +28,7 @@
         "max-len": "off",
         "comma-dangle": "off",
         "arrow-parens": "off",
+        "no-confusing-arrow": "off",
         "no-unused-expressions": ["error", { "allowTernary": true }],
         "no-plusplus": "off",
         "no-console": "off",

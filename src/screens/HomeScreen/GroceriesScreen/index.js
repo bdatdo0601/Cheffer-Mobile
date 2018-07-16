@@ -1,33 +1,85 @@
 import React from "react";
-import { View, FlatList } from "react-native";
-import RecipeItem from "../../../components/RecipeItem";
+import { View, FlatList, Text, Platform } from "react-native";
+import { createStackNavigator } from "react-navigation";
+import GroceryItem from "../../../components/GroceryItem";
 import style from "./style";
 
-const list = [
+const headerTitleStyle = {
+    color: "rgba(0, 0, 0, .9)",
+    fontWeight: Platform.OS === "ios" ? "700" : "500",
+    fontSize: Platform.OS === "ios" ? 20 : 22,
+    textAlign: "center",
+    alignSelf: "center",
+    width: "100%",
+};
+
+const mockData = [
     {
-        name: "Burritos",
-        recipe_header_image:
-            "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/2/14/0/FNK_breakfast-burrito_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382542427230.jpeg",
-        subtitle: "Vice President",
+        ingredientName: "Chicken",
+        ingredientImage:
+            "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+        measurement: "lbs",
+        amount: 100,
+        isChecked: false,
+        addedBy: ["Recipe1", "Recipe2"],
+        ingredientType: ["Poultry", "test", "Meat"],
+        ingredientGroup: ["Meat", "Protein"],
     },
     {
-        name: "Quesadillas",
-        recipe_header_image:
-            "https://atmedia.imgix.net/0e56ab38542c762f226df9866314520e2fac6f6a?w=800&fit=max",
-        subtitle: "Vice Chairman",
+        ingredientName: "Meatloaf",
+        ingredientImage:
+            "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+        measurement: "lbs",
+        amount: 100,
+        isChecked: false,
+        addedBy: ["Recipe1", "Recipe2"],
+        ingredientType: ["Poultry", "test", "Meat"],
+        ingredientGroup: ["Meat", "Protein"],
     },
     {
-        name: "Nachos",
-        recipe_header_image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv4BjDKz1dCN5M9O6Iqhc5uKcRP6aQhM3CVGQOxFnhCgJSYxA",
-        subtitle: "Weennnnn",
+        ingredientName: "Meatloafs",
+        ingredientImage:
+            "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+        measurement: "lbs",
+        amount: 100,
+        isChecked: false,
+        addedBy: ["Recipe1", "Recipe2"],
+        ingredientType: ["Poultry", "test", "Meat"],
+        ingredientGroup: ["Meat", "Protein"],
     },
 ];
 
 class GroceriesScreen extends React.Component {
     keyExtractor = (_, index) => index.toString();
 
-    renderItem = ({ item }) => <RecipeItem data={item} />;
+    static navigationOptions = () =>
+        // const { getParam } = navigation;
+        ({
+            headerTitle: <Text style={headerTitleStyle}>Grocery</Text>,
+            titleStyle: { alignSelf: "center" },
+        });
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            groceryList: mockData,
+        };
+    }
+
+    toggleCheckBox = (item, itemIndex) => {
+        // UPDATE STATUS HERE
+        const updatedGroceryList = this.state.groceryList;
+        const updatedItem = { ...item, isChecked: !item.isChecked };
+        updatedGroceryList[itemIndex] = updatedItem;
+        this.setState({ groceryList: updatedGroceryList });
+    };
+
+    renderItem = ({ item, index }) => (
+        <GroceryItem
+            data={item}
+            onCheckItem={() => this.toggleCheckBox(item, index)}
+        />
+    );
 
     render() {
         return (
@@ -35,12 +87,18 @@ class GroceriesScreen extends React.Component {
                 <FlatList
                     style={style.flatListStyle}
                     keyExtractor={this.keyExtractor}
-                    data={list}
+                    data={this.state.groceryList}
                     renderItem={this.renderItem}
+                    extraData={this.state}
                 />
             </View>
         );
     }
 }
 
-export default GroceriesScreen;
+// Do this if you want a header bar on top
+export default createStackNavigator({
+    Grocery: {
+        screen: GroceriesScreen,
+    },
+});
