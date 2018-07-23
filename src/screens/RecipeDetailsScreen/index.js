@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Text } from "react-native";
 import React from "react";
 import Recipe from "../../components/Recipe";
-import clickableIcon from "../../components/Icon";
+import clickableIcon from "../../components/ClickableIcon";
 
 class RecipeDetailsScreen extends React.Component {
     static propTypes = {
@@ -13,7 +13,7 @@ class RecipeDetailsScreen extends React.Component {
     };
 
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: <Text>RecipeMeeee</Text>,
+        headerTitle: <Text>Bread Rolls</Text>,
         headerLeft: clickableIcon(
             "arrow-back",
             navigation.getParam("onBack", () => {
