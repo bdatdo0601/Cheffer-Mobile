@@ -4,6 +4,7 @@ import { Text } from "react-native-elements";
 import PropTypes from "prop-types";
 import groceryDefaultData from "./groceryDefault";
 import clickableIcon from "../../components/ClickableIcon";
+import groceryDefaultData from "./groceryDefault";
 
 import styles from "./style";
 
