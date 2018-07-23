@@ -16,37 +16,37 @@ const headerTitleStyle = {
 
 const mockData = [
     {
-        ingredientName: "Chicken",
+        ingredientName: "Chicken Breast",
         ingredientImage:
-            "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+            "https://www.howtoshopforfree.net/wp-content/uploads/2015/05/fresh-chicken-breast.png",
         measurement: "lbs",
-        amount: 100,
+        amount: 1.5,
         isChecked: false,
-        addedBy: ["Recipe1", "Recipe2"],
-        ingredientType: ["Poultry", "test", "Meat"],
+        addedBy: ["Fajitas", "Chicken Kievs"],
+        ingredientType: ["Poultry", "Meat"],
         ingredientGroup: ["Meat", "Protein"],
     },
     {
-        ingredientName: "Meatloaf",
+        ingredientName: "Granulated Sugar",
         ingredientImage:
-            "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-        measurement: "lbs",
-        amount: 100,
+            "https://images-na.ssl-images-amazon.com/images/I/41JqqEsqYIL._SX355_.jpg",
+        measurement: "cups",
+        amount: 3,
         isChecked: false,
-        addedBy: ["Recipe1", "Recipe2"],
-        ingredientType: ["Poultry", "test", "Meat"],
-        ingredientGroup: ["Meat", "Protein"],
+        addedBy: ["Sugar Cookies"],
+        ingredientType: ["Baking Ingredients"],
+        ingredientGroup: ["Sugar"],
     },
     {
-        ingredientName: "Meatloafs",
+        ingredientName: "Unbleached Flour",
         ingredientImage:
-            "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+            "https://target.scene7.com/is/image/Target/13474786?wid=488&hei=488&fmt=pjpeg",
         measurement: "lbs",
-        amount: 100,
+        amount: 2,
         isChecked: false,
-        addedBy: ["Recipe1", "Recipe2"],
-        ingredientType: ["Poultry", "test", "Meat"],
-        ingredientGroup: ["Meat", "Protein"],
+        addedBy: ["Sugar Cookies"],
+        ingredientType: ["Baking Ingredients"],
+        ingredientGroup: [],
     },
 ];
 
