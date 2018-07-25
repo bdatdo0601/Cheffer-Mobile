@@ -1,7 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, CheckBox } from "react-native-elements";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import {
+    ActivityIndicator,
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+} from "react-native";
 import Swipeable from "react-native-swipeable";
 import _ from "lodash";
 // import Interactable from "react-native-interactable";
@@ -42,9 +48,26 @@ class GroceryItem extends React.Component {
         onItemRemove: () => {},
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            loadingToDelete: false,
+        };
+    }
+
     onRemoveItem = _.debounce(() => {
         this.swipeable.recenter();
-        setTimeout(this.props.onItemRemove, 500);
+        this.setState(
+            {
+                loadingToDelete: true,
+            },
+            () => {
+                setTimeout(() => {
+                    this.setState({ loadingToDelete: false });
+                    this.props.onItemRemove();
+                }, 500);
+            }
+        );
     }, 200);
 
     render() {
@@ -60,32 +83,36 @@ class GroceryItem extends React.Component {
                 onRightActionRelease={this.onRemoveItem}
             >
                 <Card>
-                    <TouchableOpacity onPress={this.props.onItemClick}>
-                        <View style={style.container}>
-                            <Image
-                                style={style.image}
-                                source={{ uri: data.ingredientImage }}
-                            />
-                            <View style={style.info}>
-                                <Text style={style.title}>
-                                    {data.ingredientName}
-                                </Text>
-                                <Text>
-                                    {`${data.amount} ${data.measurement}`}
-                                </Text>
-                                <Text>
-                                    {`Type: ${arrayItemToString(
-                                        data.ingredientType
-                                    )}`}
-                                </Text>
+                    {this.state.loadingToDelete ? (
+                        <ActivityIndicator size="large" color="#0000ff" />
+                    ) : (
+                        <TouchableOpacity onPress={this.props.onItemClick}>
+                            <View style={style.container}>
+                                <Image
+                                    style={style.image}
+                                    source={{ uri: data.ingredientImage }}
+                                />
+                                <View style={style.info}>
+                                    <Text style={style.title}>
+                                        {data.ingredientName}
+                                    </Text>
+                                    <Text>
+                                        {`${data.amount} ${data.measurement}`}
+                                    </Text>
+                                    <Text>
+                                        {`Type: ${arrayItemToString(
+                                            data.ingredientType
+                                        )}`}
+                                    </Text>
+                                </View>
+                                <CheckBox
+                                    checked={data.isChecked}
+                                    onPress={this.props.onCheckItem}
+                                    containerStyle={style.checkbox}
+                                />
                             </View>
-                            <CheckBox
-                                checked={data.isChecked}
-                                onPress={this.props.onCheckItem}
-                                containerStyle={style.checkbox}
-                            />
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    )}
                 </Card>
             </Swipeable>
         );
