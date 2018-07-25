@@ -51,7 +51,11 @@ class RecipeItem extends React.Component {
                         onStarPress={rating => {
                             console.log(rating);
                         }}
-                        rate={data.rating}
+                        rate={
+                            data.rating
+                                ? data.rating
+                                : Math.round(Math.random() * 10) / 2
+                        }
                         size={30}
                     />
                 </View>

@@ -13,7 +13,7 @@ class RecipeDetailsScreen extends React.Component {
     };
 
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: <Text>Bread Rolls</Text>,
+        headerTitle: <Text>???</Text>,
         headerLeft: clickableIcon(
             "arrow-back",
             navigation.getParam("onBack", () => {

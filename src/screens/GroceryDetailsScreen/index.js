@@ -44,9 +44,13 @@ class GroceryDetailsScreen extends React.Component {
             <ScrollView>
                 <Image
                     style={styles.image}
-                    source={{ uri: data.ingredientImage }}
+                    source={{
+                        uri: data.image
+                            ? data.image
+                            : "https://scontent-ort2-1.xx.fbcdn.net/v/t1.0-9/29790022_2230846830260625_4694607993546152941_n.jpg?_nc_cat=0&oh=479acdbe2a163ca4850d72b269307b90&oe=5BD961B5",
+                    }}
                 />
-                <Text h3>{data.ingredientName}</Text>
+                <Text h3>{data.name}</Text>
                 <Text style={styles.text}>
                     {`Amount needed: ${data.amount} ${data.measurement}`}
                 </Text>
@@ -57,22 +61,18 @@ class GroceryDetailsScreen extends React.Component {
                         }: ${data.addedBy.toString().replace(/,/g, ", ")}`}
                     </Text>
                 ) : null}
-                {data.ingredientType.length !== 0 ? (
+                {data.type.length !== 0 ? (
                     <Text style={styles.text}>
                         {`Ingredient type${
-                            data.ingredientType.length > 1 ? "s" : ""
-                        }: ${data.ingredientType
-                            .toString()
-                            .replace(/,/g, ", ")}`}
+                            data.type.length > 1 ? "s" : ""
+                        }: ${data.type.toString().replace(/,/g, ", ")}`}
                     </Text>
                 ) : null}
-                {data.ingredientGroup.length !== 0 ? (
+                {data.group.length !== 0 ? (
                     <Text style={styles.text}>
                         {`Food Group${
-                            data.ingredientGroup.length > 1 ? "s" : ""
-                        }: ${data.ingredientGroup
-                            .toString()
-                            .replace(/,/g, ", ")}`}
+                            data.group.length > 1 ? "s" : ""
+                        }: ${data.group.toString().replace(/,/g, ", ")}`}
                     </Text>
                 ) : null}
             </ScrollView>
