@@ -17,9 +17,9 @@ class RecipeItem extends React.Component {
     static defaultProps = {
         onRecipePress: () => {},
         data: {
-            id: "def",
+            recipeID: "def",
             name: "Dat Do",
-            recipe_header_image:
+            headerImage:
                 "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
             subtitle: "Vice President",
             prepTime: "1 hr",
@@ -38,14 +38,16 @@ class RecipeItem extends React.Component {
             <Tile
                 title={data.name}
                 imageSrc={{
-                    uri: data.recipe_header_image,
+                    uri: data.headerImage,
                 }}
-                onPress={() => this.props.onRecipePress(data.id)}
+                onPress={() => this.props.onRecipePress(data.recipeID)}
             >
                 <View>
-                    <Text>Prep Time: {data.prepTime}</Text>
+                    <Text> Prep Time: {data.prepTime} </Text>
                     <Stars
-                        style={{ textAlign: "center" }}
+                        style={{
+                            textAlign: "center",
+                        }}
                         rateMax={5}
                         isHalfStarEnabled
                         onStarPress={rating => {
