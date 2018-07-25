@@ -40,7 +40,7 @@ class RecipeItem extends React.Component {
                 imageSrc={{
                     uri: data.headerImage,
                 }}
-                onPress={() => this.props.onRecipePress(data.recipeID)}
+                onPress={() => this.props.onRecipePress(data)}
             >
                 <View>
                     <Text> Prep Time: {data.prepTime} </Text>

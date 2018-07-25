@@ -79,10 +79,13 @@ class RecipesScreen extends React.Component {
         navigation.navigate("Add");
     };
 
-    onRecipePress = currentRecipeId => {
+    onRecipePress = recipe => {
         const { navigation } = this.props;
         // console.warn(currentRecipeId);
-        navigation.navigate("RecipeDetails", { currentRecipeId });
+        navigation.navigate("RecipeDetails", {
+            currentRecipeId: recipe.recipeID,
+            currentRecipeName: recipe.name,
+        });
     };
 
     renderItem = ({ item }) => (

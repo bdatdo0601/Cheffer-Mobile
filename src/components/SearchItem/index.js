@@ -15,7 +15,7 @@ class RecipeItem extends React.Component {
     static defaultProps = {
         data: {
             name: "Dat Do",
-            recipe_header_image:
+            headerImage:
                 "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
             subtitle: "Vice President",
         },
@@ -30,7 +30,7 @@ class RecipeItem extends React.Component {
                     <View style={style.container}>
                         <Image
                             style={style.image}
-                            source={{ uri: data.recipe_header_image }}
+                            source={{ uri: data.headerImage }}
                         />
                         <View style={style.info}>
                             <Text style={style.title}>{data.name}</Text>

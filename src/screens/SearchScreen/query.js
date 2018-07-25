@@ -6,8 +6,6 @@ export default gql`
             recipeID
             name
             headerImage
-            prepTime
-            rating
         }
     }
 `;
