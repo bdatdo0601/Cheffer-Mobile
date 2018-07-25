@@ -79,13 +79,11 @@ class GroceryItem extends React.Component {
                                     )}`}
                                 </Text>
                             </View>
-                            <View>
-                                <CheckBox
-                                    checked={data.isChecked}
-                                    onPress={this.props.onCheckItem}
-                                    containerStyle={{ marginLeft: 24 }}
-                                />
-                            </View>
+                            <CheckBox
+                                checked={data.isChecked}
+                                onPress={this.props.onCheckItem}
+                                containerStyle={style.checkbox}
+                            />
                         </View>
                     </TouchableOpacity>
                 </Card>
