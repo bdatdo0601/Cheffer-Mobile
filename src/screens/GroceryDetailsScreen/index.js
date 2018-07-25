@@ -2,8 +2,8 @@ import React from "react";
 import { Image, ScrollView } from "react-native";
 import { Text } from "react-native-elements";
 import PropTypes from "prop-types";
-import clickableIcon from "../../components/ClickableIcon";
 import groceryDefaultData from "./groceryDefault";
+import clickableIcon from "../../components/ClickableIcon";
 
 import styles from "./style";
 
