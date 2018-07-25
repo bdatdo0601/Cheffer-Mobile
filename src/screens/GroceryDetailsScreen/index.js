@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import PropTypes from "prop-types";
-import clickableIcon from "../../components/Icon";
+import clickableIcon from "../../components/ClickableIcon";
 
 import styles from "./style";
 
