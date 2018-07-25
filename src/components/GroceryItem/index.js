@@ -77,8 +77,8 @@ class GroceryItem extends React.Component {
                 onRef={ref => {
                     this.swipeable = ref;
                 }}
-                leftContent={emptyContent}
-                rightContent={emptyContent}
+                leftContent={!this.state.loadingToDelete && emptyContent}
+                rightContent={!this.state.loadingToDelete && emptyContent}
                 onLeftActionRelease={this.onRemoveItem}
                 onRightActionRelease={this.onRemoveItem}
             >
