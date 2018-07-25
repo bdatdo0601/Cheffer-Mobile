@@ -38,7 +38,9 @@ class Recipe extends React.Component {
 
     renderIngredient = ({ item }) => (
         <Text style={styles.ingredients}>
-            {`\u2022 ${item.amount} ${item.measurement} of ${item.ingredient}`}
+            {`\u2022 ${item.amount} ${item.measurement} of ${
+                item.ingredient.name
+            }`}
         </Text>
     );
 
@@ -51,7 +53,7 @@ class Recipe extends React.Component {
                 }}
             >
                 <Text style={styles.steps}>
-                    {`${index + 1}. ${item} `}
+                    {`${index + 1}. ${item.summary} `}
                     <Icon
                         name={Platform.OS === "ios" ? "ios-play" : "md-play"}
                         size={16}
@@ -81,7 +83,11 @@ class Recipe extends React.Component {
             <ScrollView>
                 <Image
                     style={styles.image}
-                    source={{ uri: data.recipe_header_image }}
+                    source={{
+                        uri: data.headerImage.url
+                            ? data.headerImage.url
+                            : "https://scontent-ort2-1.xx.fbcdn.net/v/t1.0-9/29790022_2230846830260625_4694607993546152941_n.jpg?_nc_cat=0&oh=479acdbe2a163ca4850d72b269307b90&oe=5BD961B5",
+                    }}
                 />
                 <View style={styles.view}>
                     <Text h3>{data.name}</Text>
