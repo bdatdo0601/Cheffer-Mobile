@@ -1,7 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, ScrollView, FlatList, View } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import Speech from "react-native-tts";
 import { Text, Card } from "react-native-elements";
+import {
+    Image,
+    ScrollView,
+    FlatList,
+    View,
+    Platform,
+    TouchableOpacity,
+} from "react-native";
+// import clickableIcon from "../ClickableIcon";
 import recipeDefaultData from "./recipeDefault";
 import styles from "./style";
 
@@ -22,6 +32,10 @@ class Recipe extends React.Component {
 
     keyExtractor = (_, index) => index.toString();
 
+    onClick = data => {
+        Speech.speak(data);
+    };
+
     renderIngredient = ({ item }) => (
         <Text style={styles.ingredients}>
             {`\u2022 ${item.amount} ${item.measurement} of ${item.ingredient}`}
@@ -29,7 +43,23 @@ class Recipe extends React.Component {
     );
 
     renderStep = ({ item, index }) => (
-        <Text style={styles.steps}>{`${index + 1}. ${item}`}</Text>
+        <View>
+            <TouchableOpacity
+                onPress={() => {
+                    Speech.stop();
+                    Speech.speak(item);
+                }}
+            >
+                <Text style={styles.steps}>
+                    {`${index + 1}. ${item} `}
+                    <Icon
+                        name={Platform.OS === "ios" ? "ios-play" : "md-play"}
+                        size={16}
+                        style={styles.icon}
+                    />
+                </Text>
+            </TouchableOpacity>
+        </View>
     );
 
     renderComment = ({ item }) => (
@@ -49,31 +79,6 @@ class Recipe extends React.Component {
         console.log(this.props.data);
         return (
             <ScrollView>
-                {/* <Header
-                    centerComponent={{
-                        text: data.name,
-                        style: { color: "#fff" },
-                    }}
-                    rightComponent={{ icon: "add", color: "#fff" }}
-                /> */}
-                {/* <Tile
-                    title={data.name}
-                    imageSrc={{
-                        uri: data.recipe_header_image,
-                    }}
-                >
-                    <View>
-                        <Text style={styles.prepTime}>
-                            Prep Time: {data.prepTime}
-                        </Text>
-                    </View>
-                    <FlatList
-                        data={data.ingredients}
-                        renderItem={this.renderIngredient}
-                    />
-                    <FlatList data={data.steps} renderItem={this.renderStep} />
-                </Tile> */}
-
                 <Image
                     style={styles.image}
                     source={{ uri: data.recipe_header_image }}
