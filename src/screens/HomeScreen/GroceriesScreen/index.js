@@ -87,11 +87,20 @@ class GroceriesScreen extends React.Component {
         this.props.navigation.navigate("GroceryDetails", { item });
     };
 
+    onItemRemove = item => {
+        this.setState({
+            groceryList: this.state.groceryList.filter(
+                data => item.ingredientName !== data.ingredientName
+            ),
+        });
+    };
+
     renderItem = ({ item, index }) => (
         <GroceryItem
             data={item}
             onCheckItem={() => this.toggleCheckBox(item, index)}
             onItemClick={() => this.onItemClick(item)}
+            onItemRemove={() => this.onItemRemove(item)}
         />
     );
 

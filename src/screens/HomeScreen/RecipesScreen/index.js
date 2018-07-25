@@ -6,7 +6,7 @@ import { View, FlatList, Platform, Text } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 import RecipeItem from "../../../components/RecipeItem";
 import style from "./style";
-import clickableIcon from "../../../components/Icon";
+import clickableIcon from "../../../components/ClickableIcon";
 
 const headerTitleStyle = {
     color: "rgba(0, 0, 0, .9)",

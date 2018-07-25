@@ -11,7 +11,7 @@ import {
 import RecipeItem from "../../../components/RecipeItem";
 import style from "./style";
 import edamamAPI from "../../../utils/edamamAPI";
-import clickableIcon from "../../../components/Icon";
+import clickableIcon from "../../../components/ClickableIcon";
 
 const headerTitleStyle = {
     color: "rgba(0, 0, 0, .9)",
