@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Icon from "react-native-vector-icons/Ionicons";
 import Speech from "react-native-tts";
-import { Text, Card } from "react-native-elements";
+import { Text, Card, Button } from "react-native-elements";
 import {
     Image,
     ScrollView,
@@ -11,7 +11,6 @@ import {
     Platform,
     TouchableOpacity,
 } from "react-native";
-// import clickableIcon from "../ClickableIcon";
 import recipeDefaultData from "./recipeDefault";
 import styles from "./style";
 
@@ -57,12 +56,14 @@ class Recipe extends React.Component {
                     <Icon
                         name={Platform.OS === "ios" ? "ios-play" : "md-play"}
                         size={16}
-                        style={styles.icon}
+                        style={styles.stepIcon}
                     />
                 </Text>
             </TouchableOpacity>
         </View>
     );
+
+    addIngredientsToGrocery = () => {};
 
     renderComment = ({ item }) => (
         <Card style={styles.comment}>
@@ -114,16 +115,37 @@ class Recipe extends React.Component {
                         />
                     </View>
                 </View>
-                <View style={styles.specialView}>
-                    <Text h4 style={styles.header}>
-                        Comments
-                    </Text>
-                    <FlatList
-                        keyExtractor={this.keyExtractor}
-                        data={data.comments}
-                        renderItem={this.renderComment}
+                <View style={styles.container}>
+                    <Button
+                        style={styles.groceryButton}
+                        onClick={this.addIngredientsToGrocery()}
+                        icon={
+                            <Icon
+                                name={
+                                    Platform.OS === "ios"
+                                        ? "ios-cart"
+                                        : "md-cart"
+                                }
+                                style={styles.groceryIcon}
+                                size={15}
+                                color="white"
+                            />
+                        }
+                        title="Add ingredients to grocery list"
                     />
                 </View>
+                {data.comments.length > 0 ? (
+                    <View style={styles.specialView}>
+                        <Text h4 style={styles.header}>
+                            Comments
+                        </Text>
+                        <FlatList
+                            keyExtractor={this.keyExtractor}
+                            data={data.comments}
+                            renderItem={this.renderComment}
+                        />
+                    </View>
+                ) : null}
             </ScrollView>
         );
     }
