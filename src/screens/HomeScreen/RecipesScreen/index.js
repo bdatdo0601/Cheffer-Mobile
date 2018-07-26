@@ -1,12 +1,19 @@
 import React from "react";
-import Tts from "react-native-tts";
 import { createStackNavigator } from "react-navigation";
 import PropTypes from "prop-types";
-import { View, FlatList, Platform, Text } from "react-native";
+import {
+    ActivityIndicator,
+    View,
+    FlatList,
+    Platform,
+    Text,
+} from "react-native";
 import { ButtonGroup } from "react-native-elements";
+import { Query } from "react-apollo";
 import RecipeItem from "../../../components/RecipeItem";
 import style from "./style";
 import clickableIcon from "../../../components/ClickableIcon";
+import recipeQuery from "./query";
 
 const headerTitleStyle = {
     color: "rgba(0, 0, 0, .9)",
@@ -16,37 +23,6 @@ const headerTitleStyle = {
     alignSelf: "center",
     width: "100%",
 };
-
-// Should be removed after integration
-const list = [
-    {
-        id: "a1",
-        name: "Burritos",
-        recipe_header_image:
-            "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/2/14/0/FNK_breakfast-burrito_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382542427230.jpeg",
-        subtitle: "Vice President",
-        prepTime: "1 hr",
-        rating: 2.5,
-    },
-    {
-        id: "b2",
-        name: "Quesadillas",
-        recipe_header_image:
-            "https://atmedia.imgix.net/0e56ab38542c762f226df9866314520e2fac6f6a?w=800&fit=max",
-        subtitle: "Vice Chairman",
-        prepTime: "2 hr",
-        rating: 3.5,
-    },
-    {
-        id: "c3",
-        name: "Nachos",
-        recipe_header_image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv4BjDKz1dCN5M9O6Iqhc5uKcRP6aQhM3CVGQOxFnhCgJSYxA",
-        subtitle: "Weennnnn",
-        prepTime: "3 hr",
-        rating: 4.5,
-    },
-];
 
 const buttons = ["Recently Added", "Favorites"];
 
@@ -79,7 +55,6 @@ class RecipesScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            recipeList: list,
             selectedListIndex: 0,
         };
         props.navigation.setParams({
@@ -90,7 +65,6 @@ class RecipesScreen extends React.Component {
 
     onUpdatedListIndex = newListIndex => {
         this.setState({
-            recipeList: list, // should be updated
             selectedListIndex: newListIndex,
         });
     };
@@ -103,13 +77,15 @@ class RecipesScreen extends React.Component {
     onAddClick = () => {
         const { navigation } = this.props;
         navigation.navigate("Add");
-        Tts.speak("henfejh aefhga ea fha fkae");
     };
 
-    onRecipePress = currentRecipeId => {
+    onRecipePress = recipe => {
         const { navigation } = this.props;
         // console.warn(currentRecipeId);
-        navigation.navigate("RecipeDetails", { currentRecipeId });
+        navigation.navigate("RecipeDetails", {
+            currentRecipeId: recipe.recipeID,
+            currentRecipeName: recipe.name,
+        });
     };
 
     renderItem = ({ item }) => (
@@ -117,28 +93,39 @@ class RecipesScreen extends React.Component {
     );
 
     render() {
-        const { recipeList, selectedListIndex } = this.state;
+        const { selectedListIndex } = this.state;
 
         return (
-            <View style={style.viewStyle}>
-                <ButtonGroup
-                    onPress={this.onUpdatedListIndex}
-                    selectedIndex={selectedListIndex}
-                    buttons={buttons}
-                    containerStyle={style.buttonGroupStyle}
-                />
-                <FlatList
-                    style={style.flatListStyle}
-                    keyExtractor={keyExtractor}
-                    data={recipeList}
-                    renderItem={this.renderItem}
-                />
-            </View>
+            <Query query={recipeQuery}>
+                {({ loading, error, data }) => {
+                    if (loading) {
+                        return <ActivityIndicator size="large" />;
+                    }
+                    if (error) {
+                        console.log(error);
+                        return <Text>Query Error</Text>;
+                    }
+                    return (
+                        <View style={style.viewStyle}>
+                            <ButtonGroup
+                                onPress={this.onUpdatedListIndex}
+                                selectedIndex={selectedListIndex}
+                                buttons={buttons}
+                                containerStyle={style.buttonGroupStyle}
+                            />
+                            <FlatList
+                                style={style.flatListStyle}
+                                keyExtractor={keyExtractor}
+                                data={data.getRecipes}
+                                renderItem={this.renderItem}
+                            />
+                        </View>
+                    );
+                }}
+            </Query>
         );
     }
 }
-
-// export default RecipesScreen;
 
 // Do this if you want a header bar on top
 export default createStackNavigator({

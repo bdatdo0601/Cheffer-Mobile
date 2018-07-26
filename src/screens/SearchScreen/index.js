@@ -1,32 +1,18 @@
 import React from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import {
+    ActivityIndicator,
+    View,
+    Text,
+    TouchableOpacity,
+    FlatList,
+} from "react-native";
 import PropTypes from "prop-types";
+import { Query } from "react-apollo";
 import SearchForm from "../../components/FormInput/SearchForm";
 import SearchItem from "../../components/SearchItem";
+import recipeSearchQuery from "./query";
 
 import styles from "./style";
-
-// Should be removed after integration
-const list = [
-    {
-        name: "Burritos",
-        recipe_header_image:
-            "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2013/2/14/0/FNK_breakfast-burrito_s4x3.jpg.rend.hgtvcom.616.462.suffix/1382542427230.jpeg",
-        subtitle: "Vice President",
-    },
-    {
-        name: "Quesadillas",
-        recipe_header_image:
-            "https://atmedia.imgix.net/0e56ab38542c762f226df9866314520e2fac6f6a?w=800&fit=max",
-        subtitle: "Vice Chairman",
-    },
-    {
-        name: "Nachos",
-        recipe_header_image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZv4BjDKz1dCN5M9O6Iqhc5uKcRP6aQhM3CVGQOxFnhCgJSYxA",
-        subtitle: "Weennnnn",
-    },
-];
 
 const cancelButton = onCancel => (
     <TouchableOpacity style={styles.cancelButton} onPress={onCancel}>
@@ -55,7 +41,7 @@ class SearchScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            recipeList: list,
+            searchVal: "",
         };
         props.navigation.setParams({
             onSearch: this.onSearch,
@@ -63,14 +49,14 @@ class SearchScreen extends React.Component {
         });
     }
 
-    onSearch = searchVal => {
-        // Do search logic here
-        this.setState({
-            recipeList: list.filter(item =>
-                item.name.toLowerCase().includes(searchVal.toLowerCase())
-            ),
-        });
+    onSearch = searchValue => {
+        this.setState({ searchVal: searchValue });
     };
+
+    filteredData = data =>
+        data.filter(item =>
+            item.name.toLowerCase().includes(this.state.searchVal.toLowerCase())
+        );
 
     onCancel = () => {
         this.props.navigation.goBack();
@@ -79,16 +65,28 @@ class SearchScreen extends React.Component {
     renderItem = ({ item }) => <SearchItem data={item} />;
 
     render() {
-        const { recipeList } = this.state;
         return (
-            <View style={styles.container}>
-                <FlatList
-                    style={styles.flatListStyle}
-                    keyExtractor={keyExtractor}
-                    data={recipeList}
-                    renderItem={this.renderItem}
-                />
-            </View>
+            <Query query={recipeSearchQuery}>
+                {({ loading, error, data }) => {
+                    if (loading) {
+                        return <ActivityIndicator size="large" />;
+                    }
+                    if (error) {
+                        console.log(error);
+                        return <Text>Query Error</Text>;
+                    }
+                    return (
+                        <View style={styles.container}>
+                            <FlatList
+                                style={styles.flatListStyle}
+                                keyExtractor={keyExtractor}
+                                data={this.filteredData(data.getRecipes)}
+                                renderItem={this.renderItem}
+                            />
+                        </View>
+                    );
+                }}
+            </Query>
         );
     }
 }

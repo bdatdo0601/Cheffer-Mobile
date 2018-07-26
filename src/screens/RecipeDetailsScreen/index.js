@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
-import { Text } from "react-native";
+import { ActivityIndicator, Text } from "react-native";
 import React from "react";
+import { Query } from "react-apollo";
 import Recipe from "../../components/Recipe";
 import clickableIcon from "../../components/ClickableIcon";
+import recipeDetailQuery from "./query";
 
 class RecipeDetailsScreen extends React.Component {
     static propTypes = {
@@ -13,7 +15,11 @@ class RecipeDetailsScreen extends React.Component {
     };
 
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: <Text>???</Text>,
+        headerTitle: (
+            <Text>
+                {navigation.getParam("currentRecipeName", "Recipe Name")}
+            </Text>
+        ),
         headerLeft: clickableIcon(
             "arrow-back",
             navigation.getParam("onBack", () => {
@@ -30,14 +36,32 @@ class RecipeDetailsScreen extends React.Component {
         super(props);
         this.state = {
             data: props.navigation.getParam("currentRecipeId", "defaultRecipe"),
+            isNotQuery: props.navigation.getParam("isNotQuery", false),
         };
+        console.log(this.state.data);
         props.navigation.setParams({
             onBack: this.onBack,
         });
     }
 
     render() {
-        return <Recipe data={{ data: this.state.data }} />;
+        if (this.state.isNotQuery) return <Recipe data={this.state.data} />;
+        return (
+            <Query
+                query={recipeDetailQuery}
+                variables={{ recipeIDInput: { recipeID: this.state.data } }}
+            >
+                {({ loading, error, data }) => {
+                    if (loading) {
+                        return <ActivityIndicator size="large" />;
+                    }
+                    if (error) {
+                        return <Text>Query Error</Text>;
+                    }
+                    return <Recipe data={data.getRecipeByID} />;
+                }}
+            </Query>
+        );
     }
 }
 

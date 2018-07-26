@@ -47,7 +47,7 @@ class GroceryDetailsScreen extends React.Component {
                     source={{
                         uri: data.image
                             ? data.image
-                            : "https://scontent-ort2-1.xx.fbcdn.net/v/t1.0-9/29790022_2230846830260625_4694607993546152941_n.jpg?_nc_cat=0&oh=479acdbe2a163ca4850d72b269307b90&oe=5BD961B5",
+                            : "http://www.independentmediators.co.uk/wp-content/uploads/2016/02/placeholder-image.jpg",
                     }}
                 />
                 <Text h3>{data.name}</Text>

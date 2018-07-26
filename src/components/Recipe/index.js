@@ -49,7 +49,7 @@ class Recipe extends React.Component {
             <TouchableOpacity
                 onPress={() => {
                     Speech.stop();
-                    Speech.speak(item);
+                    Speech.speak(item.summary);
                 }}
             >
                 <Text style={styles.steps}>
@@ -77,16 +77,15 @@ class Recipe extends React.Component {
     );
 
     render() {
-        const data = recipeDefaultData;
-        console.log(this.props.data);
+        const { data } = this.props;
         return (
             <ScrollView>
                 <Image
                     style={styles.image}
                     source={{
-                        uri: data.headerImage.url
-                            ? data.headerImage.url
-                            : "https://scontent-ort2-1.xx.fbcdn.net/v/t1.0-9/29790022_2230846830260625_4694607993546152941_n.jpg?_nc_cat=0&oh=479acdbe2a163ca4850d72b269307b90&oe=5BD961B5",
+                        uri: data.headerImage
+                            ? data.headerImage
+                            : "http://www.independentmediators.co.uk/wp-content/uploads/2016/02/placeholder-image.jpg",
                     }}
                 />
                 <View style={styles.view}>

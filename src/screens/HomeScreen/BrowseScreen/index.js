@@ -81,9 +81,13 @@ class BrowseScreen extends React.Component {
         navigation.navigate("Add");
     };
 
-    onRecipePress = currentRecipeId => {
+    onRecipePress = recipe => {
         const { navigation } = this.props;
-        navigation.navigate("RecipeDetails", { currentRecipeId });
+        navigation.navigate("RecipeDetails", {
+            currentRecipeId: recipe.recipeID,
+            currentRecipeName: recipe.name,
+            isNotQuery: true,
+        });
     };
 
     componentDidMount() {
@@ -100,7 +104,7 @@ class BrowseScreen extends React.Component {
                     ...item,
                     id: item.recipe.uri,
                     name: item.recipe.label,
-                    recipe_header_image: item.recipe.image,
+                    headerImage: item.recipe.image,
                     prepTime: item.recipe.totalTime,
                 }));
                 this.setState({ recipeList: recipeData });

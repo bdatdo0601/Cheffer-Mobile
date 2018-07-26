@@ -1,7 +1,5 @@
 const recipeDefault = {
-    headerImage: {
-        url: "https://d2gk7xgygi98cy.cloudfront.net/3863-3-large.jpg",
-    },
+    headerImage: "https://d2gk7xgygi98cy.cloudfront.net/3863-3-large.jpg",
     name: "bread rolls",
     ingredients: [
         {
