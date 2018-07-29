@@ -1,7 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, FlatList, Text, Platform } from "react-native";
+import {
+    ActivityIndicator,
+    View,
+    FlatList,
+    Text,
+    Platform,
+} from "react-native";
 import { createStackNavigator } from "react-navigation";
+import { Query } from "react-apollo";
+import groceryQuery from "./query";
 import GroceryItem from "../../../components/GroceryItem";
 import style from "./style";
 
@@ -13,42 +21,6 @@ const headerTitleStyle = {
     alignSelf: "center",
     width: "100%",
 };
-
-const mockData = [
-    {
-        ingredientName: "Chicken Breast",
-        ingredientImage:
-            "https://www.howtoshopforfree.net/wp-content/uploads/2015/05/fresh-chicken-breast.png",
-        measurement: "lbs",
-        amount: 1.5,
-        isChecked: false,
-        addedBy: ["Fajitas", "Chicken Kievs"],
-        ingredientType: ["Poultry", "Meat"],
-        ingredientGroup: ["Meat", "Protein"],
-    },
-    {
-        ingredientName: "Granulated Sugar",
-        ingredientImage:
-            "https://images-na.ssl-images-amazon.com/images/I/41JqqEsqYIL._SX355_.jpg",
-        measurement: "cups",
-        amount: 3,
-        isChecked: false,
-        addedBy: ["Sugar Cookies"],
-        ingredientType: ["Baking Ingredients"],
-        ingredientGroup: ["Sugar"],
-    },
-    {
-        ingredientName: "Unbleached Flour",
-        ingredientImage:
-            "https://target.scene7.com/is/image/Target/13474786?wid=488&hei=488&fmt=pjpeg",
-        measurement: "lbs",
-        amount: 2,
-        isChecked: false,
-        addedBy: ["Sugar Cookies"],
-        ingredientType: ["Baking Ingredients"],
-        ingredientGroup: [],
-    },
-];
 
 class GroceriesScreen extends React.Component {
     keyExtractor = (_, index) => index.toString();
@@ -70,9 +42,7 @@ class GroceriesScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            groceryList: mockData,
-        };
+        this.state = {};
     }
 
     toggleCheckBox = (item, itemIndex) => {
@@ -106,15 +76,23 @@ class GroceriesScreen extends React.Component {
 
     render() {
         return (
-            <View style={style.viewStyle}>
-                <FlatList
-                    style={style.flatListStyle}
-                    keyExtractor={this.keyExtractor}
-                    data={this.state.groceryList}
-                    renderItem={this.renderItem}
-                    extraData={this.state}
-                />
-            </View>
+            <Query query={groceryQuery}>
+                {({ data, loading, error }) => {
+                    if (loading) return <ActivityIndicator size="large" />;
+                    if (error) return <Text>Error</Text>;
+                    return (
+                        <View style={style.viewStyle}>
+                            <FlatList
+                                style={style.flatListStyle}
+                                keyExtractor={this.keyExtractor}
+                                data={data.groceryList}
+                                renderItem={this.renderItem}
+                                extraData={this.state}
+                            />
+                        </View>
+                    );
+                }}
+            </Query>
         );
     }
 }
