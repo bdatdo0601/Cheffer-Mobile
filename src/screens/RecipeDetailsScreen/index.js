@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { ActivityIndicator, Text, Alert } from "react-native";
 import React from "react";
 import { Query, Mutation } from "react-apollo";
+import _ from "lodash";
 import Recipe from "../../components/Recipe";
 import clickableIcon from "../../components/ClickableIcon";
 import recipeDetailQuery, { ADD_TO_GROCERY_LIST_MUTATION } from "./query";
@@ -37,18 +38,30 @@ class RecipeDetailsScreen extends React.Component {
                 const imageRes = await pixabayAPI.getPictureFromAPI(
                     `${item.ingredient.name} ingredient`
                 );
-                const image = imageRes.data.hits[0].largeImageURL;
+                const image = imageRes.data.hits[0]
+                    ? imageRes.data.hits[0].largeImageURL
+                    : "https://www.skincarisma.com/assets/product-img-placeholder-5389c2f8237c2240d3e82210f31e48218ceef89f5db462839b1cad7df64c9b90.jpg";
                 return {
                     id: item.ingredient.name,
                     ingredientImage: image,
-                    ingredientName: item.ingredient.name,
-                    ingredientGroup: item.ingredient.group.map(
-                        elem => elem.name
-                    ),
-                    ingredientType: item.ingredient.type.map(elem => elem.name),
+                    ingredientName: _.capitalize(item.ingredient.name),
+                    ingredientGroup: item.ingredient.group.some(
+                        elem => elem === null
+                    )
+                        ? []
+                        : item.ingredient.group.map(elem =>
+                              _.capitalize(elem.name)
+                          ),
+                    ingredientType: item.ingredient.type.some(
+                        elem => elem === null
+                    )
+                        ? []
+                        : item.ingredient.type.map(elem =>
+                              _.capitalize(elem.name)
+                          ),
                     amount: item.amount,
                     isChecked: false,
-                    measurement: item.measurement,
+                    measurement: _.capitalize(item.measurement),
                     addedBy: [recipe.name],
                 };
             })
