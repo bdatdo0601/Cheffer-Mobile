@@ -1,7 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, FlatList, Text, Platform } from "react-native";
+import {
+    ActivityIndicator,
+    View,
+    FlatList,
+    Text,
+    Platform,
+} from "react-native";
 import { createStackNavigator } from "react-navigation";
+import { Query, Mutation } from "react-apollo";
+import {
+    GROCERY_QUERY,
+    TOGGLE_GROCERY_MUTATION,
+    REMOVE_GROCERY_MUTATION,
+} from "./query";
 import GroceryItem from "../../../components/GroceryItem";
 import style from "./style";
 
@@ -13,42 +25,6 @@ const headerTitleStyle = {
     alignSelf: "center",
     width: "100%",
 };
-
-const mockData = [
-    {
-        ingredientName: "Chicken Breast",
-        ingredientImage:
-            "https://www.howtoshopforfree.net/wp-content/uploads/2015/05/fresh-chicken-breast.png",
-        measurement: "lbs",
-        amount: 1.5,
-        isChecked: false,
-        addedBy: ["Fajitas", "Chicken Kievs"],
-        ingredientType: ["Poultry", "Meat"],
-        ingredientGroup: ["Meat", "Protein"],
-    },
-    {
-        ingredientName: "Granulated Sugar",
-        ingredientImage:
-            "https://images-na.ssl-images-amazon.com/images/I/41JqqEsqYIL._SX355_.jpg",
-        measurement: "cups",
-        amount: 3,
-        isChecked: false,
-        addedBy: ["Sugar Cookies"],
-        ingredientType: ["Baking Ingredients"],
-        ingredientGroup: ["Sugar"],
-    },
-    {
-        ingredientName: "Unbleached Flour",
-        ingredientImage:
-            "https://target.scene7.com/is/image/Target/13474786?wid=488&hei=488&fmt=pjpeg",
-        measurement: "lbs",
-        amount: 2,
-        isChecked: false,
-        addedBy: ["Sugar Cookies"],
-        ingredientType: ["Baking Ingredients"],
-        ingredientGroup: [],
-    },
-];
 
 class GroceriesScreen extends React.Component {
     keyExtractor = (_, index) => index.toString();
@@ -70,51 +46,88 @@ class GroceriesScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            groceryList: mockData,
-        };
+        this.state = {};
     }
 
-    toggleCheckBox = (item, itemIndex) => {
-        // UPDATE STATUS HERE
-        const updatedGroceryList = this.state.groceryList;
-        const updatedItem = { ...item, isChecked: !item.isChecked };
-        updatedGroceryList[itemIndex] = updatedItem;
-        this.setState({ groceryList: updatedGroceryList });
-    };
-
     onItemClick = item => {
-        this.props.navigation.navigate("GroceryDetails", { item });
-    };
-
-    onItemRemove = item => {
-        this.setState({
-            groceryList: this.state.groceryList.filter(
-                data => item.ingredientName !== data.ingredientName
-            ),
+        this.props.navigation.navigate("GroceryDetails", {
+            itemID: item.id,
+            itemName: item.ingredientName,
         });
     };
 
-    renderItem = ({ item, index }) => (
+    updateRemoveItem = cache => {
+        console.log(cache);
+    };
+
+    renderItem = ({ item }, onItemRemove, toggleCheckBox) => (
         <GroceryItem
             data={item}
-            onCheckItem={() => this.toggleCheckBox(item, index)}
+            onCheckItem={() => {
+                toggleCheckBox({
+                    variables: {
+                        groceryID: item.id,
+                    },
+                });
+            }}
             onItemClick={() => this.onItemClick(item)}
-            onItemRemove={() => this.onItemRemove(item)}
+            onItemRemove={() => {
+                onItemRemove({
+                    variables: {
+                        groceryID: item.id,
+                    },
+                });
+            }}
         />
     );
 
-    render() {
+    renderScreen = (
+        loading,
+        error,
+        groceryData,
+        toggleGrocery,
+        removeGrocery
+    ) => {
+        if (loading) {
+            return <ActivityIndicator size="large" />;
+        }
+        if (error) return <Text>Error</Text>;
         return (
             <View style={style.viewStyle}>
                 <FlatList
                     style={style.flatListStyle}
                     keyExtractor={this.keyExtractor}
-                    data={this.state.groceryList}
-                    renderItem={this.renderItem}
+                    data={groceryData.groceryList}
+                    renderItem={item =>
+                        this.renderItem(item, removeGrocery, toggleGrocery)
+                    }
                     extraData={this.state}
                 />
             </View>
+        );
+    };
+
+    render() {
+        return (
+            <Query query={GROCERY_QUERY}>
+                {({ data, loading, error }) => (
+                    <Mutation mutation={TOGGLE_GROCERY_MUTATION}>
+                        {toggleGrocery => (
+                            <Mutation mutation={REMOVE_GROCERY_MUTATION}>
+                                {removeGrocery =>
+                                    this.renderScreen(
+                                        loading,
+                                        error,
+                                        data,
+                                        toggleGrocery,
+                                        removeGrocery
+                                    )
+                                }
+                            </Mutation>
+                        )}
+                    </Mutation>
+                )}
+            </Query>
         );
     }
 }
