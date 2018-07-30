@@ -9,6 +9,8 @@ import resolvers from "./src/localgql/resolvers";
 
 import App from "./src/app";
 
+console.disableYellowBox = true;
+
 const client = new ApolloClient({
     uri: "https://cheffer-api-dev.herokuapp.com/graphql",
     clientState: {

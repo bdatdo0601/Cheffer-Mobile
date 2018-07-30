@@ -97,7 +97,7 @@ class RecipesScreen extends React.Component {
 
         return (
             <Query query={recipeQuery}>
-                {({ loading, error, data }) => {
+                {({ loading, error, data, refetch }) => {
                     if (loading) {
                         return <ActivityIndicator size="large" />;
                     }
@@ -114,6 +114,8 @@ class RecipesScreen extends React.Component {
                                 containerStyle={style.buttonGroupStyle}
                             />
                             <FlatList
+                                refreshing={loading}
+                                onRefresh={() => refetch()}
                                 style={style.flatListStyle}
                                 keyExtractor={keyExtractor}
                                 data={data.getRecipes}
