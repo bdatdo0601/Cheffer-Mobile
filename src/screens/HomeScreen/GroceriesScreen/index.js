@@ -50,7 +50,10 @@ class GroceriesScreen extends React.Component {
     }
 
     onItemClick = item => {
-        this.props.navigation.navigate("GroceryDetails", { item });
+        this.props.navigation.navigate("GroceryDetails", {
+            itemID: item.id,
+            itemName: item.ingredientName,
+        });
     };
 
     updateRemoveItem = cache => {

@@ -39,8 +39,7 @@ class RecipeDetailsScreen extends React.Component {
                 const imageRes = await pixabayAPI.getPictureFromAPI(
                     item.ingredient.name
                 );
-                console.log(imageRes);
-                const image = imageRes.data.hits[0].previewURL;
+                const image = imageRes.data.hits[0].largeImageURL;
                 return {
                     id: item.ingredient.name,
                     ingredientImage: image,

@@ -1,9 +1,11 @@
 import React from "react";
-import { Image, ScrollView } from "react-native";
+import { Image, ScrollView, ActivityIndicator } from "react-native";
 import { Text } from "react-native-elements";
 import PropTypes from "prop-types";
+import { Query } from "react-apollo";
 import clickableIcon from "../../components/ClickableIcon";
-import groceryDefaultData from "./groceryDefault";
+// import groceryDefaultData from "./groceryDefault";
+import groceryItemQuery from "./query";
 
 import styles from "./style";
 
@@ -11,10 +13,11 @@ class GroceryDetailsScreen extends React.Component {
     // This will declare the type of each object passed in this class
     static propTypes = {
         navigation: PropTypes.object,
-        data: PropTypes.object,
     };
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: <Text>{groceryDefaultData.ingredientName}</Text>,
+        headerTitle: (
+            <Text>{navigation.getParam("itemName", "Ingredient Name")}</Text>
+        ),
         headerLeft: clickableIcon(
             "arrow-back",
             navigation.getParam("onBack", () => {})
@@ -23,7 +26,6 @@ class GroceryDetailsScreen extends React.Component {
     // This will declare all the default properties passed in this class
     static defaultProps = {
         navigation: {},
-        data: groceryDefaultData,
     };
 
     constructor(props) {
@@ -31,6 +33,9 @@ class GroceryDetailsScreen extends React.Component {
         props.navigation.setParams({
             onBack: this.onBack,
         });
+        this.state = {
+            itemID: props.navigation.getParam("itemID", ""),
+        };
     }
 
     onBack = () => {
@@ -38,44 +43,68 @@ class GroceryDetailsScreen extends React.Component {
     };
 
     render() {
-        const data = groceryDefaultData;
-        console.log(this.props.data);
         return (
-            <ScrollView>
-                <Image
-                    style={styles.image}
-                    source={{
-                        uri: data.image
-                            ? data.image
-                            : "http://www.independentmediators.co.uk/wp-content/uploads/2016/02/placeholder-image.jpg",
-                    }}
-                />
-                <Text h3>{data.name}</Text>
-                <Text style={styles.text}>
-                    {`Amount needed: ${data.amount} ${data.measurement}`}
-                </Text>
-                {data.addedBy.length !== 0 ? (
-                    <Text style={styles.text}>
-                        {`Used in recipe${
-                            data.addedBy.length > 1 ? "s" : ""
-                        }: ${data.addedBy.toString().replace(/,/g, ", ")}`}
-                    </Text>
-                ) : null}
-                {data.type.length !== 0 ? (
-                    <Text style={styles.text}>
-                        {`Ingredient type${
-                            data.type.length > 1 ? "s" : ""
-                        }: ${data.type.toString().replace(/,/g, ", ")}`}
-                    </Text>
-                ) : null}
-                {data.group.length !== 0 ? (
-                    <Text style={styles.text}>
-                        {`Food Group${
-                            data.group.length > 1 ? "s" : ""
-                        }: ${data.group.toString().replace(/,/g, ", ")}`}
-                    </Text>
-                ) : null}
-            </ScrollView>
+            <Query query={groceryItemQuery}>
+                {({ data, loading, error }) => {
+                    if (loading) return <ActivityIndicator size="large" />;
+                    if (error) return <Text>Error</Text>;
+                    const ingredientData = data.groceryList.find(
+                        item => item.id === this.state.itemID
+                    );
+                    return (
+                        <ScrollView>
+                            <Image
+                                style={styles.image}
+                                source={{
+                                    uri: ingredientData.ingredientImage
+                                        ? ingredientData.ingredientImage
+                                        : "http://www.independentmediators.co.uk/wp-content/uploads/2016/02/placeholder-image.jpg",
+                                }}
+                            />
+                            <Text h3>{ingredientData.ingredientName}</Text>
+                            <Text style={styles.text}>
+                                {`Amount needed: ${ingredientData.amount} ${
+                                    ingredientData.measurement
+                                }`}
+                            </Text>
+                            {ingredientData.addedBy.length !== 0 ? (
+                                <Text style={styles.text}>
+                                    {`Used in recipe${
+                                        ingredientData.addedBy.length > 1
+                                            ? "s"
+                                            : ""
+                                    }: ${ingredientData.addedBy
+                                        .toString()
+                                        .replace(/,/g, ", ")}`}
+                                </Text>
+                            ) : null}
+                            {ingredientData.ingredientType.length !== 0 ? (
+                                <Text style={styles.text}>
+                                    {`Ingredient type${
+                                        ingredientData.ingredientType.length > 1
+                                            ? "s"
+                                            : ""
+                                    }: ${ingredientData.ingredientType
+                                        .toString()
+                                        .replace(/,/g, ", ")}`}
+                                </Text>
+                            ) : null}
+                            {ingredientData.ingredientGroup.length !== 0 ? (
+                                <Text style={styles.text}>
+                                    {`Food Group${
+                                        ingredientData.ingredientGroup.length >
+                                        1
+                                            ? "s"
+                                            : ""
+                                    }: ${ingredientData.ingredientGroup
+                                        .toString()
+                                        .replace(/,/g, ", ")}`}
+                                </Text>
+                            ) : null}
+                        </ScrollView>
+                    );
+                }}
+            </Query>
         );
     }
 }
