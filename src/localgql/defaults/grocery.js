@@ -1,6 +1,7 @@
 const mockData = [
     {
-        __typename: "groceryItem",
+        __typename: "GroceryItem",
+        id: "Chicken Breast",
         ingredientName: "Chicken Breast",
         ingredientImage:
             "https://www.howtoshopforfree.net/wp-content/uploads/2015/05/fresh-chicken-breast.png",
@@ -12,7 +13,8 @@ const mockData = [
         ingredientGroup: ["Meat", "Protein"],
     },
     {
-        __typename: "groceryItem",
+        __typename: "GroceryItem",
+        id: "Granulated Sugar",
         ingredientName: "Granulated Sugar",
         ingredientImage:
             "https://images-na.ssl-images-amazon.com/images/I/41JqqEsqYIL._SX355_.jpg",
@@ -24,7 +26,8 @@ const mockData = [
         ingredientGroup: ["Sugar"],
     },
     {
-        __typename: "groceryItem",
+        __typename: "GroceryItem",
+        id: "Unbleached Flour",
         ingredientName: "Unbleached Flour",
         ingredientImage:
             "https://target.scene7.com/is/image/Target/13474786?wid=488&hei=488&fmt=pjpeg",

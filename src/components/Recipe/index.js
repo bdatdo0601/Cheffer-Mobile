@@ -18,10 +18,12 @@ class Recipe extends React.Component {
     // This will declare the type of each object passed in this class
     static propTypes = {
         data: PropTypes.object,
+        addIngredientsToGrocery: PropTypes.func,
     };
     // This will declare all the default properties passed in this class
     static defaultProps = {
         data: recipeDefaultData,
+        addIngredientsToGrocery: () => {},
     };
 
     constructor(props) {
@@ -62,8 +64,6 @@ class Recipe extends React.Component {
             </TouchableOpacity>
         </View>
     );
-
-    addIngredientsToGrocery = () => {};
 
     renderComment = ({ item }) => (
         <Card style={styles.comment}>
@@ -118,7 +118,7 @@ class Recipe extends React.Component {
                 <View style={styles.container}>
                     <Button
                         style={styles.groceryButton}
-                        onClick={this.addIngredientsToGrocery()}
+                        onPress={this.props.addIngredientsToGrocery}
                         icon={
                             <Icon
                                 name={

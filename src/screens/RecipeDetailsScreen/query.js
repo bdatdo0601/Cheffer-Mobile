@@ -1,5 +1,11 @@
 import gql from "graphql-tag";
 
+export const ADD_TO_GROCERY_LIST_MUTATION = gql`
+    mutation AddGroceryItems($ingredientList: [GroceryItemInput]) {
+        addGroceryItems(ingredientList: $ingredientList) @client
+    }
+`;
+
 export default gql`
     query getRecipeByID($recipeIDInput: GetRecipeByIDInput) {
         getRecipeByID(input: $recipeIDInput) {
@@ -10,6 +16,12 @@ export default gql`
             ingredients {
                 ingredient {
                     name
+                    type {
+                        name
+                    }
+                    group {
+                        name
+                    }
                 }
                 amount
                 measurement

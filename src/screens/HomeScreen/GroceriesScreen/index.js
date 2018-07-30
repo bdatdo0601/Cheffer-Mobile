@@ -8,8 +8,12 @@ import {
     Platform,
 } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import { Query } from "react-apollo";
-import groceryQuery from "./query";
+import { Query, Mutation } from "react-apollo";
+import {
+    GROCERY_QUERY,
+    TOGGLE_GROCERY_MUTATION,
+    REMOVE_GROCERY_MUTATION,
+} from "./query";
 import GroceryItem from "../../../components/GroceryItem";
 import style from "./style";
 
@@ -45,53 +49,81 @@ class GroceriesScreen extends React.Component {
         this.state = {};
     }
 
-    toggleCheckBox = (item, itemIndex) => {
-        // UPDATE STATUS HERE
-        const updatedGroceryList = this.state.groceryList;
-        const updatedItem = { ...item, isChecked: !item.isChecked };
-        updatedGroceryList[itemIndex] = updatedItem;
-        this.setState({ groceryList: updatedGroceryList });
-    };
-
     onItemClick = item => {
         this.props.navigation.navigate("GroceryDetails", { item });
     };
 
-    onItemRemove = item => {
-        this.setState({
-            groceryList: this.state.groceryList.filter(
-                data => item.ingredientName !== data.ingredientName
-            ),
-        });
+    updateRemoveItem = cache => {
+        console.log(cache);
     };
 
-    renderItem = ({ item, index }) => (
+    renderItem = ({ item }, onItemRemove, toggleCheckBox) => (
         <GroceryItem
             data={item}
-            onCheckItem={() => this.toggleCheckBox(item, index)}
+            onCheckItem={() => {
+                toggleCheckBox({
+                    variables: {
+                        groceryID: item.id,
+                    },
+                });
+            }}
             onItemClick={() => this.onItemClick(item)}
-            onItemRemove={() => this.onItemRemove(item)}
+            onItemRemove={() => {
+                onItemRemove({
+                    variables: {
+                        groceryID: item.id,
+                    },
+                });
+            }}
         />
     );
 
+    renderScreen = (
+        loading,
+        error,
+        groceryData,
+        toggleGrocery,
+        removeGrocery
+    ) => {
+        if (loading) {
+            return <ActivityIndicator size="large" />;
+        }
+        if (error) return <Text>Error</Text>;
+        return (
+            <View style={style.viewStyle}>
+                <FlatList
+                    style={style.flatListStyle}
+                    keyExtractor={this.keyExtractor}
+                    data={groceryData.groceryList}
+                    renderItem={item =>
+                        this.renderItem(item, removeGrocery, toggleGrocery)
+                    }
+                    extraData={this.state}
+                />
+            </View>
+        );
+    };
+
     render() {
         return (
-            <Query query={groceryQuery}>
-                {({ data, loading, error }) => {
-                    if (loading) return <ActivityIndicator size="large" />;
-                    if (error) return <Text>Error</Text>;
-                    return (
-                        <View style={style.viewStyle}>
-                            <FlatList
-                                style={style.flatListStyle}
-                                keyExtractor={this.keyExtractor}
-                                data={data.groceryList}
-                                renderItem={this.renderItem}
-                                extraData={this.state}
-                            />
-                        </View>
-                    );
-                }}
+            <Query query={GROCERY_QUERY}>
+                {({ data, loading, error }) => (
+                    <Mutation mutation={TOGGLE_GROCERY_MUTATION}>
+                        {toggleGrocery => (
+                            <Mutation mutation={REMOVE_GROCERY_MUTATION}>
+                                {removeGrocery =>
+                                    this.renderScreen(
+                                        loading,
+                                        error,
+                                        data,
+                                        toggleGrocery,
+                                        removeGrocery
+                                    )
+                                }
+                            </Mutation>
+                        )}
+                    </Mutation>
+                )}
             </Query>
         );
     }

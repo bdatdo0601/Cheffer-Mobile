@@ -100,9 +100,10 @@ class GroceryItem extends React.Component {
                                         {`${data.amount} ${data.measurement}`}
                                     </Text>
                                     <Text>
-                                        {`Type: ${arrayItemToString(
-                                            data.ingredientType
-                                        )}`}
+                                        {data.ingredientType.length > 0 &&
+                                            `Type: ${arrayItemToString(
+                                                data.ingredientType
+                                            )}`}
                                     </Text>
                                 </View>
                                 <CheckBox

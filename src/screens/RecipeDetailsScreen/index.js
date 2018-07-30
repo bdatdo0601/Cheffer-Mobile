@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
-import { ActivityIndicator, Text } from "react-native";
+import { ActivityIndicator, Text, Alert } from "react-native";
 import React from "react";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import Recipe from "../../components/Recipe";
 import clickableIcon from "../../components/ClickableIcon";
-import recipeDetailQuery from "./query";
+import recipeDetailQuery, { ADD_TO_GROCERY_LIST_MUTATION } from "./query";
+import pixabayAPI from "../../utils/pixabayAPI";
 
 class RecipeDetailsScreen extends React.Component {
     static propTypes = {
@@ -32,6 +33,40 @@ class RecipeDetailsScreen extends React.Component {
         this.props.navigation.goBack();
     };
 
+    onAddToGroceryList = (recipe, addGroceryItem) => {
+        Promise.all(
+            recipe.ingredients.map(async item => {
+                const imageRes = await pixabayAPI.getPictureFromAPI(
+                    item.ingredient.name
+                );
+                console.log(imageRes);
+                const image = imageRes.data.hits[0].previewURL;
+                return {
+                    id: item.ingredient.name,
+                    ingredientImage: image,
+                    ingredientName: item.ingredient.name,
+                    ingredientGroup: item.ingredient.group.map(
+                        elem => elem.name
+                    ),
+                    ingredientType: item.ingredient.type.map(elem => elem.name),
+                    amount: item.amount,
+                    isChecked: false,
+                    measurement: item.measurement,
+                    addedBy: [recipe.name],
+                };
+            })
+        ).then(ingredientList => {
+            addGroceryItem({ variables: { ingredientList } }).then(() => {
+                Alert.alert(
+                    "Grocery Added",
+                    "All ingredient have been added to your grocery list",
+                    [],
+                    { cancelable: true }
+                );
+            });
+        });
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -51,15 +86,30 @@ class RecipeDetailsScreen extends React.Component {
                 query={recipeDetailQuery}
                 variables={{ recipeIDInput: { recipeID: this.state.data } }}
             >
-                {({ loading, error, data }) => {
-                    if (loading) {
-                        return <ActivityIndicator size="large" />;
-                    }
-                    if (error) {
-                        return <Text>Query Error</Text>;
-                    }
-                    return <Recipe data={data.getRecipeByID} />;
-                }}
+                {({ loading, error, data }) => (
+                    <Mutation mutation={ADD_TO_GROCERY_LIST_MUTATION}>
+                        {addGroceryItem => {
+                            if (loading) {
+                                return <ActivityIndicator size="large" />;
+                            }
+                            if (error) {
+                                return <Text>Query Error</Text>;
+                            }
+                            console.log(data);
+                            return (
+                                <Recipe
+                                    data={data.getRecipeByID}
+                                    addIngredientsToGrocery={() =>
+                                        this.onAddToGroceryList(
+                                            data.getRecipeByID,
+                                            addGroceryItem
+                                        )
+                                    }
+                                />
+                            );
+                        }}
+                    </Mutation>
+                )}
             </Query>
         );
     }
