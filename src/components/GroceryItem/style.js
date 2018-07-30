@@ -9,6 +9,7 @@ export default StyleSheet.create({
     info: {
         marginLeft: 16,
         flexGrow: 20,
+        width: 180,
     },
     checkbox: {
         flexGrow: 1,
@@ -18,7 +19,7 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         alignItems: "center",
     },
 });
