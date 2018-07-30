@@ -4,7 +4,6 @@ import { Text } from "react-native-elements";
 import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import clickableIcon from "../../components/ClickableIcon";
-// import groceryDefaultData from "./groceryDefault";
 import groceryItemQuery from "./query";
 
 import styles from "./style";

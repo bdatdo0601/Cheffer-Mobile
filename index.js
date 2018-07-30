@@ -9,16 +9,6 @@ import resolvers from "./src/localgql/resolvers";
 
 import App from "./src/app";
 
-// const cache = new InMemoryCache({
-//     dataIdFromObject: object => {
-//         /* eslint-disable-next-line */
-//         switch (object.__typename) {
-//             default:
-//                 return defaultDataIdFromObject(object);
-//         }
-//     },
-// });
-
 const client = new ApolloClient({
     uri: "https://cheffer-api-dev.herokuapp.com/graphql",
     clientState: {

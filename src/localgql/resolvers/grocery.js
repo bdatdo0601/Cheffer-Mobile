@@ -55,8 +55,6 @@ const addGroceryItems = (_, variables, context) => {
         }
     });
 
-    console.log(updatedGroceryList);
-
     context.cache.writeQuery({
         query: getFullGroceryListQuery,
         data: { groceryList: updatedGroceryList },

@@ -56,7 +56,7 @@ class RecipeDetailsScreen extends React.Component {
             addGroceryItem({ variables: { ingredientList } }).then(() => {
                 Alert.alert(
                     "Grocery Added",
-                    "All ingredient have been added to your grocery list",
+                    "All ingredients have been added to your grocery list",
                     [],
                     { cancelable: true }
                 );

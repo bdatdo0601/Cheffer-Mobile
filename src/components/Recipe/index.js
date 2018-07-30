@@ -43,8 +43,8 @@ class Recipe extends React.Component {
     renderIngredient = ({ item }) => (
         <Text style={styles.ingredients}>
             {this.props.externalData
-                ? `\u2022 ${item.text}`
-                : `\u2022 ${item.amount} ${item.measurement} of ${
+                ? `- ${item.text}`
+                : `- ${item.amount} ${item.measurement} of ${
                       item.ingredient.name
                   }`}
         </Text>
