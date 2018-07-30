@@ -46,7 +46,7 @@ const addGroceryItems = (_, variables, context) => {
                     item.amount,
                 isChecked: false,
                 addedBy: [
-                    ...updatedGroceryList[duplicatedItemIndex],
+                    ...updatedGroceryList[duplicatedItemIndex].addedBy,
                     ...item.addedBy,
                 ],
             };

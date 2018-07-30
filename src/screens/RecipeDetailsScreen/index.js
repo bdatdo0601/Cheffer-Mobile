@@ -35,7 +35,7 @@ class RecipeDetailsScreen extends React.Component {
         Promise.all(
             recipe.ingredients.map(async item => {
                 const imageRes = await pixabayAPI.getPictureFromAPI(
-                    item.ingredient.name
+                    `${item.ingredient.name} ingredient`
                 );
                 const image = imageRes.data.hits[0].largeImageURL;
                 return {
@@ -52,16 +52,20 @@ class RecipeDetailsScreen extends React.Component {
                     addedBy: [recipe.name],
                 };
             })
-        ).then(ingredientList => {
-            addGroceryItem({ variables: { ingredientList } }).then(() => {
-                Alert.alert(
-                    "Grocery Added",
-                    "All ingredients have been added to your grocery list",
-                    [],
-                    { cancelable: true }
-                );
+        )
+            .then(ingredientList => {
+                addGroceryItem({ variables: { ingredientList } }).then(() => {
+                    Alert.alert(
+                        "Grocery Added",
+                        "All ingredients have been added to your grocery list",
+                        [],
+                        { cancelable: true }
+                    );
+                });
+            })
+            .catch(err => {
+                console.log(err);
             });
-        });
     };
 
     constructor(props) {

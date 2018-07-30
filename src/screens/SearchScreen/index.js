@@ -62,7 +62,18 @@ class SearchScreen extends React.Component {
         this.props.navigation.goBack();
     };
 
-    renderItem = ({ item }) => <SearchItem data={item} />;
+    onItemPress = recipe => {
+        const { navigation } = this.props;
+        // console.warn(currentRecipeId);
+        navigation.navigate("RecipeDetails", {
+            currentRecipeId: recipe.recipeID,
+            currentRecipeName: recipe.name,
+        });
+    };
+
+    renderItem = ({ item }) => (
+        <SearchItem data={item} onPress={() => this.onItemPress(item)} />
+    );
 
     render() {
         return (
