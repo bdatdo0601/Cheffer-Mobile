@@ -23,9 +23,7 @@ class RecipeDetailsScreen extends React.Component {
         ),
         headerLeft: clickableIcon(
             "arrow-back",
-            navigation.getParam("onBack", () => {
-                console.warn("nadlwhblfh");
-            })
+            navigation.getParam("onBack", () => {})
         ),
     });
 
@@ -70,16 +68,18 @@ class RecipeDetailsScreen extends React.Component {
         super(props);
         this.state = {
             data: props.navigation.getParam("currentRecipeId", "defaultRecipe"),
-            isNotQuery: props.navigation.getParam("isNotQuery", false),
+            externalData: props.navigation.getParam("externalData", false),
+            externalRecipe: props.navigation.getParam("externalRecipe", {}),
         };
-        console.log(this.state.data);
         props.navigation.setParams({
             onBack: this.onBack,
         });
     }
 
     render() {
-        if (this.state.isNotQuery) return <Recipe data={this.state.data} />;
+        if (this.state.externalData) {
+            return <Recipe externalData data={this.state.externalRecipe} />;
+        }
         return (
             <Query
                 query={recipeDetailQuery}

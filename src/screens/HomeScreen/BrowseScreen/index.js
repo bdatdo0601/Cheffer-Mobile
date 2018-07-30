@@ -86,7 +86,8 @@ class BrowseScreen extends React.Component {
         navigation.navigate("RecipeDetails", {
             currentRecipeId: recipe.recipeID,
             currentRecipeName: recipe.name,
-            isNotQuery: true,
+            externalRecipe: recipe,
+            externalData: true,
         });
     };
 
@@ -100,12 +101,16 @@ class BrowseScreen extends React.Component {
                 ]
             )
             .then(res => {
+                console.log(res);
                 const recipeData = res.data.hits.map(item => ({
                     ...item,
                     id: item.recipe.uri,
                     name: item.recipe.label,
                     headerImage: item.recipe.image,
                     prepTime: item.recipe.totalTime,
+                    ingredients: item.recipe.ingredients,
+                    link: item.recipe.url,
+                    comments: [],
                 }));
                 this.setState({ recipeList: recipeData });
             })

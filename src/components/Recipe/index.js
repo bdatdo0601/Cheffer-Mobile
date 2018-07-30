@@ -10,6 +10,7 @@ import {
     View,
     Platform,
     TouchableOpacity,
+    Linking,
 } from "react-native";
 import recipeDefaultData from "./recipeDefault";
 import styles from "./style";
@@ -19,11 +20,13 @@ class Recipe extends React.Component {
     static propTypes = {
         data: PropTypes.object,
         addIngredientsToGrocery: PropTypes.func,
+        externalData: PropTypes.bool,
     };
     // This will declare all the default properties passed in this class
     static defaultProps = {
         data: recipeDefaultData,
         addIngredientsToGrocery: () => {},
+        externalData: false,
     };
 
     constructor(props) {
@@ -39,9 +42,11 @@ class Recipe extends React.Component {
 
     renderIngredient = ({ item }) => (
         <Text style={styles.ingredients}>
-            {`\u2022 ${item.amount} ${item.measurement} of ${
-                item.ingredient.name
-            }`}
+            {this.props.externalData
+                ? `\u2022 ${item.text}`
+                : `\u2022 ${item.amount} ${item.measurement} of ${
+                      item.ingredient.name
+                  }`}
         </Text>
     );
 
@@ -91,9 +96,11 @@ class Recipe extends React.Component {
                 />
                 <View style={styles.view}>
                     <Text h3>{data.name}</Text>
-                    <Text style={styles.prepTime}>
-                        Prep Time: {data.prepTime}
-                    </Text>
+                    {!this.props.externalData && (
+                        <Text style={styles.prepTime}>
+                            Prep Time: {data.prepTime}
+                        </Text>
+                    )}
                     <View style={styles.specialView}>
                         <Text h4 style={styles.header}>
                             Ingredients
@@ -104,35 +111,53 @@ class Recipe extends React.Component {
                             renderItem={this.renderIngredient}
                         />
                     </View>
-                    <View style={styles.specialView}>
-                        <Text h4 style={styles.header}>
-                            Steps
-                        </Text>
-                        <FlatList
-                            keyExtractor={this.keyExtractor}
-                            data={data.steps}
-                            renderItem={this.renderStep}
-                        />
-                    </View>
+                    {this.props.externalData && (
+                        <View>
+                            <Text h4 style={styles.header}>
+                                Details:{" "}
+                            </Text>
+                            <Text
+                                style={{ color: "blue" }}
+                                onPress={() => Linking.openURL(data.link)}
+                            >
+                                {data.link}
+                            </Text>
+                        </View>
+                    )}
+                    {!this.props.externalData && (
+                        <View style={styles.specialView}>
+                            <Text h4 style={styles.header}>
+                                Steps
+                            </Text>
+                            <FlatList
+                                keyExtractor={this.keyExtractor}
+                                data={data.steps}
+                                renderItem={this.renderStep}
+                            />
+                        </View>
+                    )}
                 </View>
                 <View style={styles.container}>
-                    <Button
-                        style={styles.groceryButton}
-                        onPress={this.props.addIngredientsToGrocery}
-                        icon={
-                            <Icon
-                                name={
-                                    Platform.OS === "ios"
-                                        ? "ios-cart"
-                                        : "md-cart"
-                                }
-                                style={styles.groceryIcon}
-                                size={15}
-                                color="white"
-                            />
-                        }
-                        title="Add ingredients to grocery list"
-                    />
+                    {!this.props.externalData && (
+                        <Button
+                            disabled={this.props.externalData}
+                            style={styles.groceryButton}
+                            onPress={this.props.addIngredientsToGrocery}
+                            icon={
+                                <Icon
+                                    name={
+                                        Platform.OS === "ios"
+                                            ? "ios-cart"
+                                            : "md-cart"
+                                    }
+                                    style={styles.groceryIcon}
+                                    size={15}
+                                    color="white"
+                                />
+                            }
+                            title="Add ingredients to grocery list"
+                        />
+                    )}
                 </View>
                 {data.comments.length > 0 ? (
                     <View style={styles.specialView}>
