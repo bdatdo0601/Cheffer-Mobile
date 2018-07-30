@@ -64,6 +64,7 @@ class BrowseScreen extends React.Component {
         super(props);
         this.state = {
             recipeList: [],
+            loading: false,
         };
         props.navigation.setParams({
             onAddClick: this.onAddClick,
@@ -91,7 +92,8 @@ class BrowseScreen extends React.Component {
         });
     };
 
-    componentDidMount() {
+    onFetchRecipe = () => {
+        this.setState({ loading: true });
         edamamAPI
             .getRecipesFromAPI(
                 0,
@@ -101,7 +103,6 @@ class BrowseScreen extends React.Component {
                 ]
             )
             .then(res => {
-                console.log(res);
                 const recipeData = res.data.hits.map(item => ({
                     ...item,
                     id: item.recipe.uri,
@@ -112,11 +113,15 @@ class BrowseScreen extends React.Component {
                     link: item.recipe.url,
                     comments: [],
                 }));
-                this.setState({ recipeList: recipeData });
+                this.setState({ recipeList: recipeData, loading: false });
             })
             .catch(err => {
                 console.log(err);
             });
+    };
+
+    componentDidMount() {
+        this.onFetchRecipe();
     }
 
     renderItem = ({ item }) => (
@@ -125,12 +130,14 @@ class BrowseScreen extends React.Component {
 
     render() {
         const { recipeList } = this.state;
-        if (recipeList.length === 0) {
+        if (recipeList.length === 0 || this.state.loading) {
             return <ActivityIndicator size="large" color="#0000ff" />;
         }
         return (
             <View style={style.viewStyle}>
                 <FlatList
+                    refreshing={this.state.loading}
+                    onRefresh={() => this.onFetchRecipe()}
                     style={style.flatListStyle}
                     keyExtractor={keyExtractor}
                     data={recipeList}
